@@ -109,7 +109,7 @@ export class DartMessenger implements BinaryMessenger, PlatformMessageHandler {
     if (handlerInfo != null) {
       try {
         Log.d(TAG, "Deferring to registered handler to process message.");
-        await handlerInfo.handler.onMessage(message, new Reply(this.flutterNapi, replyId));
+        handlerInfo.handler.onMessage(message, new Reply(this.flutterNapi, replyId));
       } catch (ex) {
         Log.e(TAG, "Uncaught exception in binary message listener", ex);
         this.flutterNapi.invokePlatformMessageEmptyResponseCallback(replyId);
