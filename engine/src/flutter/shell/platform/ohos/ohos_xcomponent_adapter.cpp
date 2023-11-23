@@ -243,7 +243,7 @@ void XComponentBase::OnSurfaceCreated(OH_NativeXComponent* component, void* wind
   if (ret) {
     LOGD("SetNativeWindowOpt failed:%{public}d", ret);
   }
-  PlatformViewOHOSNapi::SurfaceCreated(atoi(id_.c_str()), window);
+  PlatformViewOHOSNapi::SurfaceCreated(std::stoll(id_), window);
 }
 
 void XComponentBase::OnSurfaceChanged(OH_NativeXComponent* component, void* window)
@@ -255,13 +255,13 @@ void XComponentBase::OnSurfaceChanged(OH_NativeXComponent* component, void* wind
     LOGD("XComponent Current width:%{public}d,height:%{public}d",
          static_cast<int>(width_), static_cast<int>(height_));
   }
-  PlatformViewOHOSNapi::SurfaceChanged(atoi(id_.c_str()), width_, height_);
+  PlatformViewOHOSNapi::SurfaceChanged(std::stoll(id_), width_, height_);
 }
 
 void XComponentBase::OnSurfaceDestroyed(OH_NativeXComponent* component, void* window)
 {
   LOGD("XComponentManger::OnSurfaceDestroyed");
-  PlatformViewOHOSNapi::SurfaceDestroyed(atoi(id_.c_str()));
+  PlatformViewOHOSNapi::SurfaceDestroyed(std::stoll(id_));
 }
 
 void XComponentBase::OnDispatchTouchEvent(OH_NativeXComponent* component, void* window)
@@ -270,7 +270,7 @@ void XComponentBase::OnDispatchTouchEvent(OH_NativeXComponent* component, void* 
   int32_t ret =
       OH_NativeXComponent_GetTouchEvent(component, window, &touchEvent_);
   if (ret == OH_NATIVEXCOMPONENT_RESULT_SUCCESS) {
-    ohosTouchProcessor_.HandleTouchEvent(atoi(id_.c_str()), component, &touchEvent_);
+    ohosTouchProcessor_.HandleTouchEvent(std::stoll(id_), component, &touchEvent_);
   }
 }
 
