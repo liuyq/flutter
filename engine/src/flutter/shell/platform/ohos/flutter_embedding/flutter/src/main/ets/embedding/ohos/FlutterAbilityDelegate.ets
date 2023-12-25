@@ -462,6 +462,12 @@ interface Host extends FlutterEngineProvider, FlutterEngineConfigurator, Platfor
   getWant(): Want;
 
   shouldRestoreAndSaveState(): boolean;
+
+  /** Return the plugins */
+  getPlugins(): List<FlutterPlugin>;
+
+  /* Return the ExclusiveAppComponent */
+  getExclusiveAppComponent(): ExclusiveAppComponent<UIAbility> | null
 }
 
 export { Host, FlutterAbilityDelegate }
