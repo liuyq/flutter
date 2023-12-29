@@ -20,6 +20,11 @@ import FlutterInjector from '../../FlutterInjector'
 import { DartEntrypoint } from './dart/DartExecutor'
 import PlatformViewsController from '../../plugin/platform/PlatformViewsController'
 import ArrayList from '@ohos.util.ArrayList'
+import { FlutterPlugin } from './plugins/FlutterPlugin'
+import List from '@ohos.util.List';
+import Log from '../../util/Log';
+
+const TAG = "FlutterEngineGroup"
 
 export default class FlutterEngineGroup {
   private activeEngines: ArrayList<FlutterEngine> = new ArrayList<FlutterEngine>();
@@ -54,6 +59,7 @@ export default class FlutterEngineGroup {
       platformViewsController = new PlatformViewsController();
     }
 
+    Log.i(TAG, "shellHolder, this.activeEngines.length=" + this.activeEngines.length)
     if (this.activeEngines.length == 0) {
       engine = this.createEngine(context, platformViewsController);
       await engine.init(context, null, // String[]. The Dart VM has already started, this arguments will have no effect.
