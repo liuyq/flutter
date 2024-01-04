@@ -249,7 +249,7 @@ export default class FlutterEngine implements EngineLifecycleListener{
     this.platformViewsController?.onDetachedFromNapi();
     this.pluginRegistry?.destroy();
     this.dartExecutor.onDetachedFromNAPI();
-    // this.flutterNapi.detachFromNativeAndReleaseResources();
+    this.flutterNapi.detachFromNativeAndReleaseResources();
   }
 
   getRestorationChannel(): RestorationChannel | null {
