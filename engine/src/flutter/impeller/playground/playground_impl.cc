@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include "impeller/playground/playground_impl.h"
-#include "flutter/testing/testing.h"
 
 #define GLFW_INCLUDE_NONE
 #include "third_party/glfw/include/GLFW/glfw3.h"
@@ -20,29 +19,26 @@
 #include "impeller/playground/backend/vulkan/playground_impl_vk.h"
 #endif  // IMPELLER_ENABLE_VULKAN
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wreturn-type"
+#endif
+
 namespace impeller {
 
 std::unique_ptr<PlaygroundImpl> PlaygroundImpl::Create(
-    PlaygroundBackend backend,
-    PlaygroundSwitches switches) {
+    PlaygroundBackend backend) {
   switch (backend) {
 #if IMPELLER_ENABLE_METAL
     case PlaygroundBackend::kMetal:
-      return std::make_unique<PlaygroundImplMTL>(switches);
+      return std::make_unique<PlaygroundImplMTL>();
 #endif  // IMPELLER_ENABLE_METAL
 #if IMPELLER_ENABLE_OPENGLES
     case PlaygroundBackend::kOpenGLES:
-      return std::make_unique<PlaygroundImplGLES>(switches);
+      return std::make_unique<PlaygroundImplGLES>();
 #endif  // IMPELLER_ENABLE_OPENGLES
 #if IMPELLER_ENABLE_VULKAN
     case PlaygroundBackend::kVulkan:
-      if (!PlaygroundImplVK::IsVulkanDriverPresent()) {
-        FML_CHECK(false) << "Attempted to create playground with backend that "
-                            "isn't available or was disabled on this platform: "
-                         << PlaygroundBackendToString(backend);
-      }
-      switches.enable_vulkan_validation = true;
-      return std::make_unique<PlaygroundImplVK>(switches);
+      return std::make_unique<PlaygroundImplVK>();
 #endif  // IMPELLER_ENABLE_VULKAN
     default:
       FML_CHECK(false) << "Attempted to create playground with backend that "
@@ -52,8 +48,7 @@ std::unique_ptr<PlaygroundImpl> PlaygroundImpl::Create(
   FML_UNREACHABLE();
 }
 
-PlaygroundImpl::PlaygroundImpl(PlaygroundSwitches switches)
-    : switches_(switches) {}
+PlaygroundImpl::PlaygroundImpl() = default;
 
 PlaygroundImpl::~PlaygroundImpl() = default;
 
@@ -64,16 +59,6 @@ Vector2 PlaygroundImpl::GetContentScale() const {
   ::glfwGetWindowContentScale(window, &scale.x, &scale.y);
 
   return scale;
-}
-
-Playground::GLProcAddressResolver PlaygroundImpl::CreateGLProcAddressResolver()
-    const {
-  return nullptr;
-}
-
-Playground::VKProcAddressResolver PlaygroundImpl::CreateVKProcAddressResolver()
-    const {
-  return nullptr;
 }
 
 }  // namespace impeller
