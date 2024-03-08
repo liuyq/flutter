@@ -9,10 +9,10 @@ import("//flutter/impeller/tools/args.gni")
 import("//flutter/impeller/tools/component.gni")
 
   # Whether the Metal backend is enabled.
-  impeller_enable_metal = is_mac || is_ios
+  impeller_enable_metal = is_ios
 
   # Whether the OpenGLES backend is enabled.
-  impeller_enable_opengles = is_mac || is_linux || is_win || is_android || is_ohos
+  impeller_enable_opengles = is_linux || is_win || is_android || is_ohos
 
   # Whether the Vulkan backend is enabled.
   impeller_enable_vulkan = (is_win || is_android || is_linux) && !is_ohos
