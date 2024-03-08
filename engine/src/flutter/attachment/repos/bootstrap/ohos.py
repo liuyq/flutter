@@ -146,8 +146,16 @@ def getNdkHome():
                 exit(20)
             HOS_NDK_HOME = os.path.join(HOS_SDK_HOME, str(sdkInt), "native")
         else:
-            HOS_NDK_HOME = "%s/HarmonyOS-NEXT-DP1/base/native" % os.getenv("HOS_SDK_HOME")
-    logging.info("HOS_NDK_HOME = %s" % HOS_NDK_HOME)
+            sdk_dir = os.getenv("HOS_SDK_HOME")
+            #  find the latest version folder named HarmonyOS-NEXT-DP[number] in the sdk directory
+            folders = [folder for folder in os.listdir(sdk_dir) if os.path.isdir(os.path.join(sdk_dir, folder))]
+            pattern = re.compile(r'HarmonyOS-NEXT-DP\d+')
+            matched_folders = [folder for folder in folders if pattern.match(folder)]
+            matched_folders.sort(key=lambda x: int(pattern.match(x).group().split('DP')[-1]))
+            latest_version_dir = os.path.join(sdk_dir, matched_folders[-1]) if matched_folders else None
+
+            OHOS_NDK_HOME = "%s/base/native" % latest_version_dir
+    logging.info("OHOS_NDK_HOME = %s" % OHOS_NDK_HOME)
     if (
         (not os.path.exists(HOS_NDK_HOME))
         or (not os.path.exists(HOS_NDK_HOME + "/sysroot"))
