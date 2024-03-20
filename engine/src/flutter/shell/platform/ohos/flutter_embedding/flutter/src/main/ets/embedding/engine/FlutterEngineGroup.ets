@@ -69,6 +69,7 @@ export default class FlutterEngineGroup {
       if (initialRoute != null) {
         engine.getNavigationChannel()?.setInitialRoute(initialRoute);
       }
+      engine.getDartExecutor().executeDartEntrypoint(dartEntrypoint, dartEntrypointArgs)
     } else {
       engine = await this.activeEngines[0]
         .spawn(
