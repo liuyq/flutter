@@ -33,8 +33,6 @@ import FlutterEngineCache from '../engine/FlutterEngineCache';
 import FlutterEngineGroupCache from '../engine/FlutterEngineGroupCache';
 import FlutterEngineGroup, { Options } from '../engine/FlutterEngineGroup';
 import FlutterNapi from '../engine/FlutterNapi';
-import List from '@ohos.util.List';
-import GeneratedPluginRegister from '../engine/plugins/util/GeneratedPluginRegister';
 import { FlutterView } from '../../view/FlutterView';
 import FlutterManager from './FlutterManager';
 import router from '@ohos.router';
