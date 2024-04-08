@@ -339,16 +339,13 @@ void main() {
           expect(xcode.isRecommendedVersionSatisfactory, isFalse);
         });
 
-        testWithoutContext(
-          'version checks pass when version meets minimum but not recommended',
-          () {
-            xcodeProjectInterpreter.isInstalled = true;
-            xcodeProjectInterpreter.version = Version(14, null, null);
+        testWithoutContext('version checks pass when version meets minimum but not recommended', () {
+          xcodeProjectInterpreter.isInstalled = true;
+          xcodeProjectInterpreter.version = Version(14, null, null);
 
-            expect(xcode.isRequiredVersionSatisfactory, isTrue);
-            expect(xcode.isRecommendedVersionSatisfactory, isFalse);
-          },
-        );
+          expect(xcode.isRequiredVersionSatisfactory, isTrue);
+          expect(xcode.isRecommendedVersionSatisfactory, isFalse);
+        });
 
         testWithoutContext('version checks pass when major version exceeds minimum', () {
           xcodeProjectInterpreter.isInstalled = true;
@@ -369,6 +366,30 @@ void main() {
           xcodeProjectInterpreter.version = Version(14, 0, 2);
 
           expect(xcode.isRequiredVersionSatisfactory, isTrue);
+        });
+
+        testWithoutContext('version checks pass when major version exceeds recommendation', () {
+          xcodeProjectInterpreter.isInstalled = true;
+          xcodeProjectInterpreter.version = Version(16, 0, 0);
+
+          expect(xcode.isRequiredVersionSatisfactory, isTrue);
+          expect(xcode.isRecommendedVersionSatisfactory, isTrue);
+        });
+
+        testWithoutContext('version checks pass when minor version exceeds recommendation', () {
+          xcodeProjectInterpreter.isInstalled = true;
+          xcodeProjectInterpreter.version = Version(15, 3, 0);
+
+          expect(xcode.isRequiredVersionSatisfactory, isTrue);
+          expect(xcode.isRecommendedVersionSatisfactory, isTrue);
+        });
+
+        testWithoutContext('version checks pass when patch version exceeds recommendation', () {
+          xcodeProjectInterpreter.isInstalled = true;
+          xcodeProjectInterpreter.version = Version(15, 0, 2);
+
+          expect(xcode.isRequiredVersionSatisfactory, isTrue);
+          expect(xcode.isRecommendedVersionSatisfactory, isTrue);
         });
 
         testWithoutContext('version checks pass when major version exceeds recommendation', () {
