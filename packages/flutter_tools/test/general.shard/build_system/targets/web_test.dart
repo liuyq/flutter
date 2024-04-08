@@ -244,286 +244,237 @@ name: foo
       webResources.childFile('index.html').writeAsStringSync('''
 <!DOCTYPE html><html><head><base href='/basehreftest/'></head></html>
     ''');
-      environment.buildDir.childFile('main.dart.js').createSync();
-      await WebTemplatedFiles(<Map<String, Object?>>[]).build(environment);
+    environment.buildDir.childFile('main.dart.js').createSync();
+    await WebTemplatedFiles('build config').build(environment);
 
-      expect(
-        environment.outputDir.childFile('index.html').readAsStringSync(),
-        contains('/basehreftest/'),
-      );
-    }),
-  );
+    expect(environment.outputDir.childFile('index.html').readAsStringSync(), contains('/basehreftest/'));
+  }));
 
-  test(
-    'WebReleaseBundle copies dart2js output and resource files to output directory',
-    () => testbed.run(() async {
-      environment.defines[kBuildMode] = 'release';
-      final Directory webResources = environment.projectDir.childDirectory('web');
-      webResources.childFile('foo.txt')
-        ..createSync(recursive: true)
-        ..writeAsStringSync('A');
-      environment.buildDir.childFile('main.dart.js').createSync();
-      environment.buildDir.childFile('main.dart.js.info.json').createSync();
-      environment.buildDir.childFile('main.dart.js.map').createSync();
-      environment.buildDir.childFile('main.dart.js_1.part.js').createSync();
-      environment.buildDir.childFile('main.dart.js_1.part.js.map').createSync();
+  test('WebReleaseBundle copies dart2js output and resource files to output directory', () => testbed.run(() async {
+    environment.defines[kBuildMode] = 'release';
+    final Directory webResources = environment.projectDir.childDirectory('web');
+    webResources.childFile('foo.txt')
+      ..createSync(recursive: true)
+      ..writeAsStringSync('A');
+    environment.buildDir.childFile('main.dart.js').createSync();
+    environment.buildDir.childFile('main.dart.js.map').createSync();
+    environment.buildDir.childFile('main.dart.js_1.part.js').createSync();
+    environment.buildDir.childFile('main.dart.js_1.part.js.map').createSync();
 
-      await WebReleaseBundle(<WebCompilerConfig>[
-        const JsCompilerConfig(dumpInfo: true),
-      ], const NoOpAnalytics()).build(environment);
+    await WebReleaseBundle(<WebCompilerConfig>[
+        const JsCompilerConfig()
+    ]).build(environment);
 
-      expect(environment.outputDir.childFile('foo.txt').readAsStringSync(), 'A');
-      expect(environment.outputDir.childFile('main.dart.js').existsSync(), true);
-      expect(environment.outputDir.childFile('main.dart.js.info.json').existsSync(), true);
-      expect(environment.outputDir.childFile('main.dart.js.map').existsSync(), true);
-      expect(environment.outputDir.childFile('main.dart.js_1.part.js').existsSync(), true);
-      expect(environment.outputDir.childFile('main.dart.js_1.part.js.map').existsSync(), true);
-      expect(
-        environment.outputDir
-            .childDirectory('assets')
-            .childFile('AssetManifest.bin.json')
-            .existsSync(),
-        true,
-      );
+    expect(environment.outputDir.childFile('foo.txt')
+      .readAsStringSync(), 'A');
+    expect(environment.outputDir.childFile('main.dart.js')
+      .existsSync(), true);
+    expect(environment.outputDir.childFile('main.dart.js.map')
+      .existsSync(), true);
+    expect(environment.outputDir.childFile('main.dart.js_1.part.js')
+      .existsSync(), true);
+    expect(environment.outputDir.childFile('main.dart.js_1.part.js.map')
+      .existsSync(), true);
+    expect(environment.outputDir.childDirectory('assets')
+      .childFile('AssetManifest.bin.json').existsSync(), true);
 
-      // Update to arbitrary resource file triggers rebuild.
-      webResources.childFile('foo.txt').writeAsStringSync('B');
+    // Update to arbitrary resource file triggers rebuild.
+    webResources.childFile('foo.txt').writeAsStringSync('B');
 
-      await WebReleaseBundle(<WebCompilerConfig>[
-        const JsCompilerConfig(),
-      ], const NoOpAnalytics()).build(environment);
+    await WebReleaseBundle(<WebCompilerConfig>[
+        const JsCompilerConfig()
+    ]).build(environment);
 
-      expect(environment.outputDir.childFile('foo.txt').readAsStringSync(), 'B');
-    }),
-  );
+    expect(environment.outputDir.childFile('foo.txt')
+      .readAsStringSync(), 'B');
+  }));
 
-  test(
-    'WebReleaseBundle copies over output files when they change',
-    () => testbed.run(() async {
-      final Directory webResources = environment.projectDir.childDirectory('web');
-      webResources.childFile('foo.txt')
-        ..createSync(recursive: true)
-        ..writeAsStringSync('A');
+  test('WebReleaseBundle copies over output files when they change', () => testbed.run(() async {
+    final Directory webResources = environment.projectDir.childDirectory('web');
+    webResources.childFile('foo.txt')
+      ..createSync(recursive: true)
+      ..writeAsStringSync('A');
 
-      environment.buildDir.childFile('main.dart.wasm')
-        ..createSync()
-        ..writeAsStringSync('old wasm');
-      environment.buildDir.childFile('main.dart.mjs')
-        ..createSync()
-        ..writeAsStringSync('old mjs');
-      await WebReleaseBundle(<WebCompilerConfig>[
-        const WasmCompilerConfig(),
-      ], const NoOpAnalytics()).build(environment);
-      expect(environment.outputDir.childFile('main.dart.wasm').readAsStringSync(), 'old wasm');
-      expect(environment.outputDir.childFile('main.dart.mjs').readAsStringSync(), 'old mjs');
+    environment.buildDir.childFile('main.dart.wasm')..createSync()..writeAsStringSync('old wasm');
+    environment.buildDir.childFile('main.dart.mjs')..createSync()..writeAsStringSync('old mjs');
+    await WebReleaseBundle(<WebCompilerConfig>[
+      const WasmCompilerConfig()
+    ]).build(environment);
+    expect(environment.outputDir.childFile('main.dart.wasm')
+      .readAsStringSync(), 'old wasm');
+        expect(environment.outputDir.childFile('main.dart.mjs')
+      .readAsStringSync(), 'old mjs');
 
-      environment.buildDir.childFile('main.dart.wasm')
-        ..createSync()
-        ..writeAsStringSync('new wasm');
-      environment.buildDir.childFile('main.dart.mjs')
-        ..createSync()
-        ..writeAsStringSync('new mjs');
+    environment.buildDir.childFile('main.dart.wasm')..createSync()..writeAsStringSync('new wasm');
+    environment.buildDir.childFile('main.dart.mjs')..createSync()..writeAsStringSync('new mjs');
 
-      await WebReleaseBundle(<WebCompilerConfig>[
-        const WasmCompilerConfig(),
-      ], const NoOpAnalytics()).build(environment);
+    await WebReleaseBundle(<WebCompilerConfig>[
+      const WasmCompilerConfig()
+    ]).build(environment);
 
-      expect(environment.outputDir.childFile('main.dart.wasm').readAsStringSync(), 'new wasm');
-      expect(environment.outputDir.childFile('main.dart.mjs').readAsStringSync(), 'new mjs');
-    }),
-  );
+    expect(environment.outputDir.childFile('main.dart.wasm')
+      .readAsStringSync(), 'new wasm');
+    expect(environment.outputDir.childFile('main.dart.mjs')
+      .readAsStringSync(), 'new mjs');
+  }));
 
-  test(
-    'WebEntrypointTarget generates an entrypoint for a file outside of main',
-    () => testbed.run(
-      () async {
-        final File mainFile = globals.fs.file(globals.fs.path.join('other', 'lib', 'main.dart'))
-          ..createSync(recursive: true)
-          ..writeAsStringSync('void main() {}');
-        environment.defines[kTargetFile] = mainFile.path;
-        await const WebEntrypointTarget().build(environment);
+  test('WebEntrypointTarget generates an entrypoint for a file outside of main', () => testbed.run(() async {
+    final File mainFile = globals.fs.file(globals.fs.path.join('other', 'lib', 'main.dart'))
+      ..createSync(recursive: true)
+      ..writeAsStringSync('void main() {}');
+    environment.defines[kTargetFile] = mainFile.path;
+    await const WebEntrypointTarget().build(environment);
 
-        final String generated = environment.buildDir.childFile('main.dart').readAsStringSync();
+    final String generated = environment.buildDir.childFile('main.dart').readAsStringSync();
 
-        // Import.
-        expect(generated, contains("import 'file:///other/lib/main.dart' as entrypoint;"));
-      },
-      overrides: <Type, Generator>{
-        TemplateRenderer: () => const MustacheTemplateRenderer(),
-        Pub: ThrowingPub.new,
-      },
-    ),
-  );
+    // Import.
+    expect(generated, contains("import 'file:///other/lib/main.dart' as entrypoint;"));
+  }, overrides: <Type, Generator>{
+    TemplateRenderer: () => const MustacheTemplateRenderer(),
+  }));
 
-  test(
-    'WebEntrypointTarget generates a plugin registrant for a file outside of main',
-    () => testbed.run(
-      () async {
-        final File mainFile = globals.fs.file(globals.fs.path.join('other', 'lib', 'main.dart'))
-          ..createSync(recursive: true)
-          ..writeAsStringSync('void main() {}');
-        environment.defines[kTargetFile] = mainFile.path;
-        environment.defines[kHasWebPlugins] = 'true';
-        await const WebEntrypointTarget().build(environment);
+  test('WebEntrypointTarget generates a plugin registrant for a file outside of main', () => testbed.run(() async {
+    final File mainFile = globals.fs.file(globals.fs.path.join('other', 'lib', 'main.dart'))
+      ..createSync(recursive: true)
+      ..writeAsStringSync('void main() {}');
+    environment.defines[kTargetFile] = mainFile.path;
+    environment.defines[kHasWebPlugins] = 'true';
+    await const WebEntrypointTarget().build(environment);
 
-        final String generated = environment.buildDir.childFile('main.dart').readAsStringSync();
+    final String generated = environment.buildDir.childFile('main.dart').readAsStringSync();
 
-        // Import.
-        expect(generated, contains("import 'file:///other/lib/main.dart' as entrypoint;"));
-        expect(generated, contains("import 'web_plugin_registrant.dart' as pluginRegistrant;"));
-      },
-      overrides: <Type, Generator>{
-        TemplateRenderer: () => const MustacheTemplateRenderer(),
-        Pub: ThrowingPub.new,
-      },
-    ),
-  );
+    // Import.
+    expect(generated, contains("import 'file:///other/lib/main.dart' as entrypoint;"));
+    expect(generated, contains("import 'web_plugin_registrant.dart' as pluginRegistrant;"));
+  }, overrides: <Type, Generator>{
+    TemplateRenderer: () => const MustacheTemplateRenderer(),
+  }));
 
-  test(
-    'WebEntrypointTarget generates an entrypoint with plugins and init platform on windows',
-    () => testbed.run(
-      () async {
-        final File mainFile = globals.fs.file(globals.fs.path.join('foo', 'lib', 'main.dart'))
-          ..createSync(recursive: true)
-          ..writeAsStringSync('void main() {}');
-        environment.defines[kTargetFile] = mainFile.path;
 
-        environment.defines[kHasWebPlugins] = 'true';
-        await const WebEntrypointTarget().build(environment);
+  test('WebEntrypointTarget generates an entrypoint with plugins and init platform on windows', () => testbed.run(() async {
+    final File mainFile = globals.fs.file(globals.fs.path.join('foo', 'lib', 'main.dart'))
+      ..createSync(recursive: true)
+      ..writeAsStringSync('void main() {}');
+    environment.defines[kTargetFile] = mainFile.path;
 
-        final String generated = environment.buildDir.childFile('main.dart').readAsStringSync();
+    environment.defines[kHasWebPlugins] = 'true';
+    await const WebEntrypointTarget().build(environment);
 
-        // Plugins
-        expect(generated, contains("import 'web_plugin_registrant.dart' as pluginRegistrant;"));
-        expect(generated, contains('pluginRegistrant.registerPlugins();'));
+    final String generated = environment.buildDir.childFile('main.dart').readAsStringSync();
 
-        // Import.
-        expect(generated, contains("import 'package:foo/main.dart' as entrypoint;"));
+    // Plugins
+    expect(generated, contains("import 'web_plugin_registrant.dart' as pluginRegistrant;"));
+    expect(generated, contains('pluginRegistrant.registerPlugins();'));
 
-        // Main
-        expect(generated, contains('ui_web.bootstrapEngine('));
-        expect(generated, contains('entrypoint.main as _'));
-      },
-      overrides: <Type, Generator>{
-        Platform: () => windows,
-        TemplateRenderer: () => const MustacheTemplateRenderer(),
-        Pub: ThrowingPub.new,
-      },
-    ),
-  );
+    // Import.
+    expect(generated, contains("import 'package:foo/main.dart' as entrypoint;"));
 
-  test(
-    'WebEntrypointTarget generates an entrypoint without plugins and init platform',
-    () => testbed.run(
-      () async {
-        final File mainFile = globals.fs.file(globals.fs.path.join('foo', 'lib', 'main.dart'))
-          ..createSync(recursive: true)
-          ..writeAsStringSync('void main() {}');
-        environment.defines[kTargetFile] = mainFile.path;
-        environment.defines[kHasWebPlugins] = 'false';
-        await const WebEntrypointTarget().build(environment);
+    // Main
+    expect(generated, contains('ui_web.bootstrapEngine('));
+    expect(generated, contains('entrypoint.main as _'));
+  }, overrides: <Type, Generator>{
+    Platform: () => windows,
+    TemplateRenderer: () => const MustacheTemplateRenderer(),
+  }));
 
-        final String generated = environment.buildDir.childFile('main.dart').readAsStringSync();
+  test('WebEntrypointTarget generates an entrypoint without plugins and init platform', () => testbed.run(() async {
+    final File mainFile = globals.fs.file(globals.fs.path.join('foo', 'lib', 'main.dart'))
+      ..createSync(recursive: true)
+      ..writeAsStringSync('void main() {}');
+    environment.defines[kTargetFile] = mainFile.path;
+    environment.defines[kHasWebPlugins] = 'false';
+    await const WebEntrypointTarget().build(environment);
 
-        // Plugins (the generated file is a noop)
-        expect(generated, contains("import 'web_plugin_registrant.dart' as pluginRegistrant;"));
-        expect(generated, contains('pluginRegistrant.registerPlugins();'));
+    final String generated = environment.buildDir.childFile('main.dart').readAsStringSync();
 
-        // Import.
-        expect(generated, contains("import 'package:foo/main.dart' as entrypoint;"));
+    // Plugins (the generated file is a noop)
+    expect(generated, contains("import 'web_plugin_registrant.dart' as pluginRegistrant;"));
+    expect(generated, contains('pluginRegistrant.registerPlugins();'));
 
-        // Main
-        expect(generated, contains('ui_web.bootstrapEngine('));
-        expect(generated, contains('entrypoint.main as _'));
-      },
-      overrides: <Type, Generator>{
-        TemplateRenderer: () => const MustacheTemplateRenderer(),
-        Pub: ThrowingPub.new,
-      },
-    ),
-  );
+    // Import.
+    expect(generated, contains("import 'package:foo/main.dart' as entrypoint;"));
 
-  test(
-    'WebEntrypointTarget generates an entrypoint with a language version',
-    () => testbed.run(
-      () async {
-        final File mainFile = globals.fs.file(globals.fs.path.join('foo', 'lib', 'main.dart'))
-          ..createSync(recursive: true)
-          ..writeAsStringSync('// @dart=2.8\nvoid main() {}');
-        environment.defines[kTargetFile] = mainFile.path;
-        await const WebEntrypointTarget().build(environment);
+    // Main
+    expect(generated, contains('ui_web.bootstrapEngine('));
+    expect(generated, contains('entrypoint.main as _'));
+  }, overrides: <Type, Generator>{
+    TemplateRenderer: () => const MustacheTemplateRenderer(),
+  }));
 
-        final String generated = environment.buildDir.childFile('main.dart').readAsStringSync();
+  test('WebEntrypointTarget generates an entrypoint with a language version', () => testbed.run(() async {
+    final File mainFile = globals.fs.file(globals.fs.path.join('foo', 'lib', 'main.dart'))
+      ..createSync(recursive: true)
+      ..writeAsStringSync('// @dart=2.8\nvoid main() {}');
+    environment.defines[kTargetFile] = mainFile.path;
+    await const WebEntrypointTarget().build(environment);
 
-        // Language version
-        expect(generated, contains('// @dart=2.8'));
-      },
-      overrides: <Type, Generator>{
-        TemplateRenderer: () => const MustacheTemplateRenderer(),
-        Pub: ThrowingPub.new,
-      },
-    ),
-  );
+    final String generated = environment.buildDir.childFile('main.dart').readAsStringSync();
 
-  test(
-    'WebEntrypointTarget generates an entrypoint with a language version from a package config',
-    () => testbed.run(
-      () async {
-        final File mainFile = globals.fs.file(globals.fs.path.join('foo', 'lib', 'main.dart'))
-          ..createSync(recursive: true)
-          ..writeAsStringSync('void main() {}');
-        globals.fs.file(globals.fs.path.join('pubspec.yaml')).writeAsStringSync('name: foo\n');
-        environment.defines[kTargetFile] = mainFile.path;
-        await const WebEntrypointTarget().build(environment);
+    // Language version
+    expect(generated, contains('// @dart=2.8'));
+  }, overrides: <Type, Generator>{
+    TemplateRenderer: () => const MustacheTemplateRenderer(),
+  }));
 
-        final String generated = environment.buildDir.childFile('main.dart').readAsStringSync();
+  test('WebEntrypointTarget generates an entrypoint with a language version from a package config', () => testbed.run(() async {
+    final File mainFile = globals.fs.file(globals.fs.path.join('foo', 'lib', 'main.dart'))
+      ..createSync(recursive: true)
+      ..writeAsStringSync('void main() {}');
+    globals.fs.file(globals.fs.path.join('pubspec.yaml'))
+      .writeAsStringSync('name: foo\n');
+    environment.defines[kTargetFile] = mainFile.path;
+    await const WebEntrypointTarget().build(environment);
 
-        // Language version
-        expect(generated, contains('// @dart=2.7'));
-      },
-      overrides: <Type, Generator>{
-        TemplateRenderer: () => const MustacheTemplateRenderer(),
-        Pub: ThrowingPub.new,
-      },
-    ),
-  );
+    final String generated = environment.buildDir.childFile('main.dart').readAsStringSync();
 
-  test(
-    'WebEntrypointTarget generates an entrypoint without plugins and without init platform',
-    () => testbed.run(
-      () async {
-        final File mainFile = globals.fs.file(globals.fs.path.join('foo', 'lib', 'main.dart'))
-          ..createSync(recursive: true)
-          ..writeAsStringSync('void main() {}');
-        environment.defines[kTargetFile] = mainFile.path;
-        environment.defines[kHasWebPlugins] = 'false';
-        await const WebEntrypointTarget().build(environment);
+    // Language version
+    expect(generated, contains('// @dart=2.7'));
+  }, overrides: <Type, Generator>{
+    TemplateRenderer: () => const MustacheTemplateRenderer(),
+  }));
 
-        final String generated = environment.buildDir.childFile('main.dart').readAsStringSync();
+  test('WebEntrypointTarget generates an entrypoint without plugins and without init platform', () => testbed.run(() async {
+    final File mainFile = globals.fs.file(globals.fs.path.join('foo', 'lib', 'main.dart'))
+      ..createSync(recursive: true)
+      ..writeAsStringSync('void main() {}');
+    environment.defines[kTargetFile] = mainFile.path;
+    environment.defines[kHasWebPlugins] = 'false';
+    await const WebEntrypointTarget().build(environment);
 
-        // Plugins
-        expect(generated, contains("import 'web_plugin_registrant.dart' as pluginRegistrant;"));
-        expect(generated, contains('pluginRegistrant.registerPlugins();'));
+    final String generated = environment.buildDir.childFile('main.dart').readAsStringSync();
 
-        // Import.
-        expect(generated, contains("import 'package:foo/main.dart' as entrypoint;"));
+    // Plugins
+    expect(generated, contains("import 'web_plugin_registrant.dart' as pluginRegistrant;"));
+    expect(generated, contains('pluginRegistrant.registerPlugins();'));
 
-        // Main
-        expect(generated, contains('ui_web.bootstrapEngine('));
-        expect(generated, contains('entrypoint.main as _'));
-      },
-      overrides: <Type, Generator>{
-        TemplateRenderer: () => const MustacheTemplateRenderer(),
-        Pub: ThrowingPub.new,
-      },
-    ),
-  );
+    // Import.
+    expect(generated, contains("import 'package:foo/main.dart' as entrypoint;"));
 
-  test(
-    'Dart2JSTarget calls dart2js with expected args with csp',
-    () => testbed.run(() async {
-      environment.defines[kBuildMode] = 'profile';
-      final common = <String>[
+    // Main
+    expect(generated, contains('ui_web.bootstrapEngine('));
+    expect(generated, contains('entrypoint.main as _'));
+  }, overrides: <Type, Generator>{
+    TemplateRenderer: () => const MustacheTemplateRenderer(),
+  }));
+
+  test('Dart2JSTarget calls dart2js with expected args with csp', () => testbed.run(() async {
+    environment.defines[kBuildMode] = 'profile';
+    environment.defines[JsCompilerConfig.kCspMode] = 'true';
+    processManager.addCommand(FakeCommand(
+      command: <String>[
+        ..._kDart2jsLinuxArgs,
+        '-Ddart.vm.profile=true',
+        '-DFLUTTER_WEB_AUTO_DETECT=true',
+        '--no-source-maps',
+        '-o',
+        environment.buildDir.childFile('app.dill').absolute.path,
+        '--packages=.dart_tool/package_config.json',
+        '--cfe-only',
+        environment.buildDir.childFile('main.dart').absolute.path,
+      ]
+    ));
+    processManager.addCommand(FakeCommand(
+      command: <String>[
         ..._kDart2jsLinuxArgs,
         '-Ddart.vm.profile=true',
         ..._kStandardFlutterWebDefines,

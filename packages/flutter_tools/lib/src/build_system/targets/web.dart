@@ -105,23 +105,6 @@ abstract class Dart2WebTarget extends Target {
   Iterable<File> buildFiles(Environment environment);
   Iterable<String> get buildPatternStems;
 
-  List<String> computeDartDefines(Environment environment) {
-    final List<String> dartDefines = compilerConfig.renderer.updateDartDefines(
-      decodeDartDefines(environment.defines, kDartDefines),
-    );
-    if (environment.defines[kUseLocalCanvasKitFlag] != 'true') {
-      final bool canvasKitUrlAlreadySet = dartDefines.any(
-        (String define) => define.startsWith('FLUTTER_WEB_CANVASKIT_URL='),
-      );
-      if (!canvasKitUrlAlreadySet) {
-        dartDefines.add(
-          'FLUTTER_WEB_CANVASKIT_URL=https://www.gstatic.com/flutter-canvaskit/${globals.flutterVersion.engineRevision}/',
-        );
-      }
-    }
-    return dartDefines;
-  }
-
   @override
   List<Target> get dependencies => const <Target>[
     WebEntrypointTarget(),
@@ -236,31 +219,29 @@ class Dart2JSTarget extends Dart2WebTarget {
   };
 
   @override
-  Iterable<File> buildFiles(Environment environment) =>
-      environment.buildDir.listSync(recursive: true).whereType<File>().where((File file) {
+  Iterable<File> buildFiles(Environment environment)
+    => environment.buildDir
+      .listSync(recursive: true)
+      .whereType<File>()
+      .where((File file) {
         if (file.basename == 'main.dart.js') {
           return true;
         }
         if (file.basename == 'main.dart.js.map') {
           return compilerConfig.sourceMaps;
         }
-        final partFileRegex = RegExp(r'main\.dart\.js_[0-9].*\.part\.js');
+        final RegExp partFileRegex = RegExp(r'main\.dart\.js_[0-9].*\.part\.js');
         if (partFileRegex.hasMatch(file.basename)) {
           return true;
         }
 
         if (compilerConfig.sourceMaps) {
-          final partFileSourceMapRegex = RegExp(r'main\.dart\.js_[0-9].*.part\.js\.map');
+          final RegExp partFileSourceMapRegex = RegExp(r'main\.dart\.js_[0-9].*.part\.js\.map');
           if (partFileSourceMapRegex.hasMatch(file.basename)) {
             return true;
           }
         }
 
-        if (compilerConfig.dumpInfo) {
-          if (file.basename == 'main.dart.js.info.json') {
-            return true;
-          }
-        }
         return false;
       });
 
@@ -268,7 +249,10 @@ class Dart2JSTarget extends Dart2WebTarget {
   Iterable<String> get buildPatternStems => <String>[
     'main.dart.js',
     'main.dart.js_*.part.js',
-    if (compilerConfig.sourceMaps) ...<String>['main.dart.js.map', 'main.dart.js_*.part.js.map'],
+    if (compilerConfig.sourceMaps) ...<String>[
+      'main.dart.js.map',
+      'main.dart.js_*.part.js.map',
+    ],
   ];
 }
 
@@ -340,6 +324,10 @@ class Dart2WasmTarget extends Dart2WebTarget {
         '--extra-compiler-option=--import-shared-memory',
         '--extra-compiler-option=--shared-memory-max-pages=32768',
       ],
+      if (buildMode == BuildMode.profile)
+        '-Ddart.vm.profile=true'
+      else
+        '-Ddart.vm.product=true',
       ...decodeCommaSeparated(environment.defines, kExtraFrontEndOptions),
       for (final String dartDefine in dartDefines) '-D$dartDefine',
       '--extra-compiler-option=--depfile=${depFile.path}',
@@ -394,60 +382,20 @@ class Dart2WasmTarget extends Dart2WebTarget {
             );
 
   @override
-  Iterable<String> get buildPatternStems => compilerConfig.dryRun
-      ? const <String>[]
-      : <String>[
-          'main.dart.wasm',
-          'main.dart.mjs',
-          if (compilerConfig.sourceMaps) 'main.dart.wasm.map',
-        ];
+  Iterable<File> buildFiles(Environment environment)
+    => environment.buildDir
+      .listSync(recursive: true)
+      .whereType<File>()
+      .where((File file) => switch (file.basename) {
+        'main.dart.wasm' || 'main.dart.mjs' => true,
+        _ => false,
+      });
 
-  void _handleDryRunResult(Environment environment, RunResult runResult) {
-    final int exitCode = runResult.exitCode;
-    final String stdout = runResult.stdout;
-    final String stderr = runResult.stderr;
-    final String result;
-    String? findingsSummary;
-
-    if (exitCode != 0 && exitCode != 254) {
-      environment.logger.printWarning('Unexpected wasm dry run failure ($exitCode):');
-      if (stderr.isNotEmpty) {
-        environment.logger.printWarning(stdout);
-        environment.logger.printWarning(stderr);
-      }
-      result = 'crash';
-    } else if (exitCode == 0) {
-      environment.logger.printWarning(
-        'Wasm dry run succeeded. Consider building and testing your application with the '
-        '`--wasm` flag. See docs for more info: '
-        'https://docs.flutter.dev/platform-integration/web/wasm',
-      );
-      result = 'success';
-    } else if (stderr.isNotEmpty) {
-      environment.logger.printWarning('Wasm dry run failed:');
-      environment.logger.printWarning(stdout);
-      environment.logger.printWarning(stderr);
-      result = 'failure';
-    } else if (stdout.isNotEmpty) {
-      environment.logger.printWarning('Wasm dry run findings:');
-      environment.logger.printWarning(stdout);
-      environment.logger.printWarning(
-        'Consider addressing these issues to enable wasm builds. See docs for more info: '
-        'https://docs.flutter.dev/platform-integration/web/wasm\n',
-      );
-      result = 'findings';
-      findingsSummary = RegExp(
-        r'\(([0-9]+)\)',
-      ).allMatches(stdout).map((RegExpMatch f) => f.group(1)).join(',');
-    } else {
-      result = 'unknown';
-    }
-    environment.logger.printWarning('Use --no-wasm-dry-run to disable these warnings.');
-
-    _analytics.send(
-      Event.flutterWasmDryRun(result: result, exitCode: exitCode, findingsSummary: findingsSummary),
-    );
-  }
+  @override
+  Iterable<String> get buildPatternStems => const <String>[
+    'main.dart.wasm',
+    'main.dart.mjs',
+  ];
 }
 
 /// Unpacks the dart2js or dart2wasm compilation and resources to a given
@@ -482,15 +430,19 @@ class WebReleaseBundle extends Target {
   Iterable<String> get buildPatternStems =>
       compileTargets.expand((Dart2WebTarget target) => target.buildPatternStems);
 
+  Iterable<String> get buildPatternStems => compileTargets.expand(
+    (Dart2WebTarget target) => target.buildPatternStems,
+  );
+
   @override
   List<Source> get inputs => <Source>[
     const Source.pattern('{PROJECT_DIR}/pubspec.yaml'),
-    ...buildPatternStems.map((String file) => Source.pattern('{BUILD_DIR}/$file')),
+    ...buildPatternStems.map((String file) => Source.pattern('{BUILD_DIR}/$file'))
   ];
 
   @override
   List<Source> get outputs => <Source>[
-    ...buildPatternStems.map((String file) => Source.pattern('{OUTPUT_DIR}/$file')),
+    ...buildPatternStems.map((String file) => Source.pattern('{OUTPUT_DIR}/$file'))
   ];
 
   @override
