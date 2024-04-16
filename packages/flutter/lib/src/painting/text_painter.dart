@@ -1573,22 +1573,32 @@ class TextPainter {
     }
 
     final _LineCaretMetrics metrics;
-    final List<TextBox> boxes = cachedLayout.paragraph.getBoxesForRange(
-      graphemeRange.start,
-      graphemeRange.end,
-      boxHeightStyle: ui.BoxHeightStyle.strut,
-    );
+    final List<TextBox> boxes = cachedLayout.paragraph
+      .getBoxesForRange(graphemeRange.start, graphemeRange.end, boxHeightStyle: ui.BoxHeightStyle.strut);
 
-    final bool anchorToLeft = switch (glyphInfo.writingDirection) {
-      TextDirection.ltr => anchorToLeadingEdge,
-      TextDirection.rtl => !anchorToLeadingEdge,
-    };
-    final TextBox box = anchorToLeft ? boxes.first : boxes.last;
-    metrics = _LineCaretMetrics(
-      offset: Offset(anchorToLeft ? box.left : box.right, box.top),
-      writingDirection: box.direction,
-      height: box.bottom - box.top,
-    );
+    if (boxes.isNotEmpty) {
+      final bool ahchorToLeft = switch (glyphInfo.writingDirection) {
+        TextDirection.ltr => anchorToLeadingEdge,
+        TextDirection.rtl => !anchorToLeadingEdge,
+      };
+      final TextBox box = ahchorToLeft ? boxes.first : boxes.last;
+      metrics = _LineCaretMetrics(
+        offset: Offset(ahchorToLeft ? box.left : box.right, box.top),
+        writingDirection: box.direction,
+      );
+    } else {
+      // Fall back to glyphInfo. This should only happen when using the HTML renderer.
+      assert(kIsWeb && !isCanvasKit);
+      final Rect graphemeBounds = glyphInfo.graphemeClusterLayoutBounds;
+      final double dx = switch (glyphInfo.writingDirection) {
+        TextDirection.ltr => anchorToLeadingEdge ? graphemeBounds.left : graphemeBounds.right,
+        TextDirection.rtl => anchorToLeadingEdge ? graphemeBounds.right : graphemeBounds.left,
+      };
+      metrics = _LineCaretMetrics(
+        offset: Offset(dx, graphemeBounds.top),
+        writingDirection: glyphInfo.writingDirection,
+      );
+    }
 
     cachedLayout._previousCaretPositionKey = caretPositionCacheKey;
     return _caretMetrics = metrics;
