@@ -25,6 +25,7 @@
 #include "flutter/fml/synchronization/waitable_event.h"
 #include "flutter/fml/time/time_delta.h"
 #include "flutter/fml/time/time_point.h"
+#include "flutter/fml/hisysevent_c.h"
 #if IMPELLER_SUPPORTS_RENDERING
 #include "impeller/core/formats.h"               // nogncheck
 #include "impeller/display_list/aiks_context.h"  // nogncheck
@@ -775,6 +776,8 @@ class Rasterizer final : public SnapshotDelegate,
   // WeakPtrFactory must be the last member.
   fml::TaskRunnerAffineWeakPtrFactory<Rasterizer> weak_factory_;
   FML_DISALLOW_COPY_AND_ASSIGN(Rasterizer);
+
+  HiSysEvent hisysevent_;
 };
 
 }  // namespace flutter
