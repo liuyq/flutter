@@ -1214,6 +1214,7 @@ class CachedLocalEngineArtifacts implements Artifacts {
       case Artifact.icuData:
       case Artifact.flutterXcframework:
       case Artifact.flutterMacOSXcframework:
+      case Artifact.flutterEngineHar:
         return _fileSystem.path.join(localEngineInfo.targetOutPath, artifactFileName);
       case Artifact.platformKernelDill:
         if (platform == TargetPlatform.fuchsia_x64 || platform == TargetPlatform.fuchsia_arm64) {
