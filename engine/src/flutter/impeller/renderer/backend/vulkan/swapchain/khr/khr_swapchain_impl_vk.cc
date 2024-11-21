@@ -25,6 +25,7 @@ struct KHRFrameSynchronizerVK {
   vk::UniqueSemaphore render_ready;
   vk::UniqueSemaphore present_ready;
   std::shared_ptr<CommandBuffer> final_cmd_buffer;
+  std::shared_ptr<CommandBuffer> ready_cmd_buffer;
   bool is_valid = false;
   // Whether the renderer attached an onscreen command buffer to render to.
   bool has_onscreen = false;
@@ -412,10 +413,11 @@ KHRSwapchainImplVK::AcquireResult KHRSwapchainImplVK::AcquireNextDrawable() {
   /// ensuring correct rendering.
   /// Note: vkWaitSemaphores might not function correctly when the semaphore is
   /// imported from a sync FD.
-  auto cmd_buffer = context.CreateCommandBuffer();
-  if (cmd_buffer) {
-    auto vk_cmd_buffer =
-        CommandBufferVK::Cast(*cmd_buffer).GetEncoder()->GetCommandBuffer();
+  sync->ready_cmd_buffer = context.CreateCommandBuffer();
+  if (sync->ready_cmd_buffer) {
+    auto vk_cmd_buffer = CommandBufferVK::Cast(*sync->ready_cmd_buffer)
+                             .GetEncoder()
+                             ->GetCommandBuffer();
     BarrierVK barrier;
     barrier.new_layout = vk::ImageLayout::eColorAttachmentOptimal;
     barrier.cmd_buffer = vk_cmd_buffer;
