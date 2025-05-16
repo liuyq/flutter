@@ -128,6 +128,11 @@ Initial stable release.
 ### [3.32.0](https://github.com/flutter/flutter/releases/tag/3.32.0)
 Initial stable release.
 
+## Flutter 3.32 Changes
+
+### [3.32.0](https://github.com/flutter/flutter/releases/tag/3.32.0)
+Initial stable release.
+
 ## Flutter 3.29 Changes
 
 ### [3.29.3](https://github.com/flutter/flutter/releases/tag/3.29.3)
