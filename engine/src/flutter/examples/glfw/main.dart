@@ -14,7 +14,7 @@ void main() {
   } catch (e) {
     // If impeller is not enabled, make sure the exception isn't about symbols missing.
     assert(
-      e.toString().contains('Flutter GPU requires the Impeller rendering backend to be enabled.'),
+      e.toString().contains('Flutter GPU must be enabled via the Flutter GPU manifest setting'),
     );
   }
 

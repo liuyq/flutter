@@ -4,12 +4,13 @@
 # found in the LICENSE file.
 set -e # Exit if any program returns an error.
 
+dir_parent=$(cd $(dirname $0); pwd)
+
 if uname -m | grep "arm64"; then
     variant="host_debug_unopt_arm64"
 else
     variant="host_debug_unopt"
 fi
-
 #################################################################
 # Make the host C++ project.
 #################################################################
@@ -23,20 +24,26 @@ make
 #################################################################
 # Make the guest Flutter project.
 #################################################################
-if [ ! -d myapp ]; then
-    flutter create myapp
+# Since cannot create a project within the Flutter SDK. Let's create
+# the app project under one temporary directory
+# and use absolute path as much as posisble
+dir_tmp=$(mktemp -d)
+name_app="myapp"
+dir_app="${dir_tmp}/${name_app}"
+cd ${dir_tmp}
+if [ ! -d "${name_app}" ]; then
+    flutter create "${name_app}"
 fi
-
-cd myapp
+cd "${name_app}"
 flutter pub add flutter_gpu --sdk=flutter
-cp ../../main.dart lib/main.dart
+cp ${dir_parent}/main.dart lib/main.dart
 flutter build bundle \
-        --local-engine-src-path ../../../../../ \
-        --local-engine=$variant \
-        --local-engine-host=$variant
+        --local-engine-src-path ${dir_parent}/../../../ \
+        --local-engine="${variant}" \
+        --local-engine-host="${variant}"
 cd -
 
 #################################################################
 # Run the Flutter Engine Embedder
 #################################################################
-./flutter_glfw ./myapp ../../../third_party/icu/common/icudtl.dat
+${dir_parent}/debug/flutter_glfw ${dir_tmp}/${name_app} ${dir_parent}/../../third_party/icu/common/icudtl.dat
