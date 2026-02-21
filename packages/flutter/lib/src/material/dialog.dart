@@ -449,7 +449,7 @@ class AlertDialog extends StatelessWidget {
     this.shape,
     this.alignment,
     this.constraints,
-    this.scrollable = false,
+    this.scrollable,
   });
 
   /// Creates an adaptive [AlertDialog] based on whether the target platform is
@@ -509,7 +509,7 @@ class AlertDialog extends StatelessWidget {
     ShapeBorder? shape,
     AlignmentGeometry? alignment,
     BoxConstraints? constraints,
-    bool scrollable,
+    bool? scrollable,
     ScrollController? scrollController,
     ScrollController? actionScrollController,
     Duration insetAnimationDuration,
@@ -758,7 +758,7 @@ class AlertDialog extends StatelessWidget {
   /// to overflow. Both [title] and [content] are wrapped in a scroll view,
   /// allowing all overflowed content to be visible while still showing the
   /// button bar.
-  final bool scrollable;
+  final bool? scrollable;
 
   @override
   Widget build(BuildContext context) {
@@ -779,6 +779,7 @@ class AlertDialog extends StatelessWidget {
       case TargetPlatform.fuchsia:
       case TargetPlatform.linux:
       case TargetPlatform.windows:
+      case TargetPlatform.ohos:
         label ??= MaterialLocalizations.of(context).alertDialogLabel;
     }
 
@@ -789,6 +790,9 @@ class AlertDialog extends StatelessWidget {
         MediaQuery.textScalerOf(context).scale(fontSizeToScale) / fontSizeToScale;
     final double paddingScaleFactor = _scalePadding(effectiveTextScale);
     final TextDirection? textDirection = Directionality.maybeOf(context);
+
+    final bool effectiveScrollable = scrollable ?? 
+ 	       (Theme.of(context).platform == TargetPlatform.ohos ? true : false);
 
     Widget? iconWidget;
     Widget? titleWidget;
@@ -902,7 +906,7 @@ class AlertDialog extends StatelessWidget {
     }
 
     List<Widget> columnChildren;
-    if (scrollable) {
+    if (effectiveScrollable) {
       columnChildren = <Widget>[
         if (title != null || content != null)
           Flexible(
@@ -988,7 +992,7 @@ class _AdaptiveAlertDialog extends AlertDialog {
     super.shape,
     super.alignment,
     super.constraints,
-    super.scrollable = false,
+    super.scrollable,
     this.scrollController,
     this.actionScrollController,
     this.insetAnimationDuration = const Duration(milliseconds: 100),
@@ -1008,6 +1012,7 @@ class _AdaptiveAlertDialog extends AlertDialog {
       case TargetPlatform.fuchsia:
       case TargetPlatform.linux:
       case TargetPlatform.windows:
+      case TargetPlatform.ohos:
         break;
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
@@ -1281,6 +1286,7 @@ class SimpleDialog extends StatelessWidget {
       case TargetPlatform.fuchsia:
       case TargetPlatform.linux:
       case TargetPlatform.windows:
+      case TargetPlatform.ohos:
         label ??= MaterialLocalizations.of(context).dialogLabel;
     }
 
@@ -1554,6 +1560,7 @@ Future<T?> showAdaptiveDialog<T>({
     case TargetPlatform.fuchsia:
     case TargetPlatform.linux:
     case TargetPlatform.windows:
+    case TargetPlatform.ohos:
       return showDialog<T>(
         context: context,
         builder: builder,

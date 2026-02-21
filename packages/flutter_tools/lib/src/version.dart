@@ -1141,6 +1141,12 @@ class GitTagVersion {
     if (gitTagVersion != const GitTagVersion.unknown()) {
       return gitTagVersion;
     }
+
+    gitTagVersion = parseOhosVersion(version);
+    if (gitTagVersion != const GitTagVersion.unknown()) {
+      return gitTagVersion;
+    }
+
     globals.printTrace('Could not interpret results of "git describe": $version');
     return const GitTagVersion.unknown();
   }
@@ -1151,6 +1157,9 @@ class GitTagVersion {
     }
     if (commits == 0) {
       return gitTag;
+    }
+    if (gitTag != null && gitTag!.contains('ohos')) {
+      return gitTag!;
     }
     if (hotfix != null) {
       // This is an unexpected state where untagged commits exist past a hotfix

@@ -1854,6 +1854,7 @@ class RenderEditable extends RenderBox
       case TargetPlatform.fuchsia:
       case TargetPlatform.linux:
       case TargetPlatform.windows:
+      case TargetPlatform.ohos:
         // Override the height to take the full height of the glyph at the TextPosition
         // when not on iOS. iOS has special handling that creates a taller caret.
         // TODO(garyq): see https://github.com/flutter/flutter/issues/120836.
@@ -2264,6 +2265,8 @@ class RenderEditable extends RenderBox
             }
             return TextSelection(baseOffset: previousWord.start, extentOffset: position.offset);
           }
+          break;
+        case TargetPlatform.ohos:
         case TargetPlatform.fuchsia:
         case TargetPlatform.macOS:
         case TargetPlatform.linux:
@@ -2337,6 +2340,7 @@ class RenderEditable extends RenderBox
       case TargetPlatform.fuchsia:
       case TargetPlatform.linux:
       case TargetPlatform.windows:
+      case TargetPlatform.ohos:
         _caretPrototype = Rect.fromLTWH(
           0.0,
           _kCaretHeightOffset,

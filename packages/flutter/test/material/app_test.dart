@@ -1515,6 +1515,7 @@ void main() {
         case TargetPlatform.android:
         case TargetPlatform.fuchsia:
         case TargetPlatform.iOS:
+        case TargetPlatform.ohos:
           // Does not throw if we aren't using it.
           defaultBehavior.buildScrollbar(capturedContext, child, details);
         case TargetPlatform.linux:
@@ -1571,6 +1572,7 @@ void main() {
         case TargetPlatform.linux:
         case TargetPlatform.macOS:
         case TargetPlatform.windows:
+        case TargetPlatform.ohos:
           // Does not throw if we aren't using it.
           // Horizontal axis gets no scrollbars for all platforms.
           defaultBehavior.buildScrollbar(capturedContext, child, details);

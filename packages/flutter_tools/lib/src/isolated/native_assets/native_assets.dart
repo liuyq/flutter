@@ -426,6 +426,8 @@ Map<FlutterCodeAsset, KernelAsset> assetTargetLocationsForOS(
       return assetTargetLocationsIOS(codeAssets);
     case OS.android:
       return assetTargetLocationsAndroid(codeAssets);
+    case OS.ohos:
+      return assetTargetLocationsOhos(codeAssets);
     default:
       throw UnimplementedError('This should be unreachable.');
   }
@@ -678,6 +680,11 @@ OS getNativeOSFromTargetPlatform(TargetPlatform platform) {
     case TargetPlatform.android_arm64:
     case TargetPlatform.android_x64:
       return OS.android;
+    case TargetPlatform.ohos:
+    case TargetPlatform.ohos_arm:
+    case TargetPlatform.ohos_arm64:
+    case TargetPlatform.ohos_x64:
+      return OS.ohos;
     case TargetPlatform.tester:
       if (const LocalPlatform().isMacOS) {
         return OS.macOS;

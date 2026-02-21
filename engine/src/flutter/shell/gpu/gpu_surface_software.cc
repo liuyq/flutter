@@ -33,6 +33,7 @@ std::unique_ptr<SurfaceFrame> GPUSurfaceSoftware::AcquireFrame(
   SurfaceFrame::FramebufferInfo framebuffer_info;
   framebuffer_info.supports_readback = true;
 
+  FML_DLOG(INFO) << "AcquireFrame";
   // TODO(38466): Refactor GPU surface APIs take into account the fact that an
   // external view embedder may want to render to the root surface.
   if (!render_to_surface_) {
@@ -88,6 +89,7 @@ std::unique_ptr<SurfaceFrame> GPUSurfaceSoftware::AcquireFrame(
             surface_frame.SkiaSurface());
       };
 
+  FML_DLOG(INFO) << "return  SurfaceFrame";
   return std::make_unique<SurfaceFrame>(backing_store, framebuffer_info,
                                         encode_callback, submit_callback,
                                         logical_size);
