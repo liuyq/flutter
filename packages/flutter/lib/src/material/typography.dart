@@ -221,6 +221,7 @@ class Typography with Diagnosticable {
       TargetPlatform.fuchsia => (black ?? blackMountainView, white ?? whiteMountainView),
       TargetPlatform.windows => (black ?? blackRedmond, white ?? whiteRedmond),
       TargetPlatform.macOS => (black ?? blackRedwoodCity, white ?? whiteRedwoodCity),
+      TargetPlatform.ohos ||
       TargetPlatform.linux => (black ?? blackHelsinki, white ?? whiteHelsinki),
       null => (black!, white!),
     };

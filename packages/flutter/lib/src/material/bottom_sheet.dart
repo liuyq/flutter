@@ -722,6 +722,7 @@ class _ModalBottomSheetState<T> extends State<_ModalBottomSheet<T>> {
   String _getRouteLabel(MaterialLocalizations localizations) => switch (defaultTargetPlatform) {
     TargetPlatform.iOS || TargetPlatform.macOS => '',
     TargetPlatform.android ||
+    TargetPlatform.ohos ||
     TargetPlatform.fuchsia ||
     TargetPlatform.linux ||
     TargetPlatform.windows => localizations.dialogLabel,

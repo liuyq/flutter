@@ -33,6 +33,55 @@
 
 namespace flutter {
 
+class MallocDeviceBuffer : public impeller::DeviceBuffer {
+ public:
+  explicit MallocDeviceBuffer(impeller::DeviceBufferDescriptor desc)
+      : impeller::DeviceBuffer(desc) {
+    data_ = static_cast<uint8_t*>(malloc(desc.size));
+  }
+
+  ~MallocDeviceBuffer() override { free(data_); }
+
+  bool SetLabel(std::string_view label) override { return true; }
+
+  bool SetLabel(std::string_view label, impeller::Range range) override {
+    return true;
+  }
+
+  uint8_t* OnGetContents() const override { return data_; }
+
+  bool OnCopyHostBuffer(const uint8_t* source,
+                        impeller::Range source_range,
+                        size_t offset) override {
+    memcpy(data_ + offset, source + source_range.offset, source_range.length);
+    return true;
+  }
+
+ private:
+  uint8_t* data_;
+
+  FML_DISALLOW_COPY_AND_ASSIGN(MallocDeviceBuffer);
+};
+
+#ifdef FML_OS_ANDROID
+static constexpr bool kShouldUseMallocDeviceBuffer = true;
+#else
+static constexpr bool kShouldUseMallocDeviceBuffer = false;
+#endif  // FML_OS_ANDROID
+
+#ifdef FML_OS_OHOS
+// [an optimization method]
+// By default, Android uses Skia rendering and OHOS platform uses Impeller
+// rendering. Whether on Android or OHOS platforms, in debug mode, rendering
+// overrized images by Impeller will take a long time. But in release mode, the
+// time for rendering on Android is short. Anyway, it is an optimization method
+// that OHOS platform can use the pixelmap interface of the SDK to scale
+// overrized images and accelerate rendering.
+static constexpr bool kNotScalePixels = true;
+#else
+static constexpr bool kNotScalePixels = false;
+#endif  // FML_OS_OHOS
+
 namespace {
 /**
  *  Loads the gamut as a set of three points (triangle).

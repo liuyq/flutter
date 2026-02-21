@@ -26,7 +26,10 @@ def IsWindows():
 def Main(argv):
   parser = argparse.ArgumentParser()
 
-  parser.add_argument('--unset', action=argparse.BooleanOptionalAction, default=False)
+  if hasattr(argparse, 'BooleanOptionalAction'):
+    parser.add_argument('--unset', action=argparse.BooleanOptionalAction, default=False)
+  else:
+    parser.add_argument('--unset', action='store_true')
 
   args = parser.parse_args()
 

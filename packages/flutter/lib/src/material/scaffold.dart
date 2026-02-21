@@ -3193,6 +3193,7 @@ class ScaffoldState extends State<Scaffold>
       TargetPlatform.iOS ||
       TargetPlatform.macOS => widget.primary ? _HitTestableAtOrigin(_statusBarKey) : null,
       TargetPlatform.android ||
+      TargetPlatform.ohos ||
       TargetPlatform.fuchsia ||
       TargetPlatform.linux ||
       TargetPlatform.windows => null,

@@ -807,6 +807,7 @@ class AppBar extends StatefulWidget implements PreferredSizeWidget {
       return switch (theme.platform) {
         TargetPlatform.iOS || TargetPlatform.macOS => actions == null || actions!.length < 2,
         TargetPlatform.android ||
+        TargetPlatform.ohos:
         TargetPlatform.fuchsia ||
         TargetPlatform.linux ||
         TargetPlatform.windows => false,
@@ -1073,7 +1074,8 @@ class _AppBarState extends State<AppBar> {
             TargetPlatform.android ||
             TargetPlatform.fuchsia ||
             TargetPlatform.linux ||
-            TargetPlatform.windows => true,
+            TargetPlatform.windows ||
+            TargetPlatform.ohos => true,
             TargetPlatform.iOS || TargetPlatform.macOS => null,
           },
           header: true,

@@ -23,6 +23,13 @@ toolchain("custom") {
   nm = "${toolchain_bin}/${custom_target_triple}-nm"
   strip = "${toolchain_bin}/${custom_target_triple}-strip"
 
+  if (is_ohos) {
+    ar = "${toolchain_bin}/llvm-ar"
+    readelf = "${toolchain_bin}/llvm-readelf"
+    nm = "${toolchain_bin}/llvm-nm"
+    strip = "${toolchain_bin}/llvm-strip"
+  }
+
   target_triple_flags = "--target=${custom_target_triple}"
   sysroot_flags = "--sysroot ${custom_sysroot}"
 

@@ -381,7 +381,9 @@ class Canvas {
       bool reuse_depth = false,
       const std::shared_ptr<ColorSourceContents>& override_contents = nullptr);
 
-  void AddRenderEntityToCurrentPass(Entity& entity, bool reuse_depth = false);
+  void AddRenderEntityToCurrentPass(Entity& entity,
+                                    bool reuse_depth = false,
+                                    bool is_draw_rect = false);
 
   /// Returns true if this operation is consistent with a DrawShadow-like
   /// operation.

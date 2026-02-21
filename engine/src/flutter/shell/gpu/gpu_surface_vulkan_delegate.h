@@ -43,6 +43,12 @@ class GPUSurfaceVulkanDelegate {
   ///         and it's ready to be bound for further reading/writing.
   ///
   virtual bool PresentImage(VkImage image, VkFormat format) = 0;
+
+  /// @brief Called by the engine to tell the delegate present_info.
+  ///
+  virtual bool SetPresentInfo(const VulkanPresentInfo& present_info) {
+    return false;
+  };
 };
 
 }  // namespace flutter
