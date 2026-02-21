@@ -50,7 +50,6 @@ void main() {
   const ProcessManager processManager = LocalProcessManager();
 
   setUp(() async {
-    logger = BufferLogger.test();
     tempDir = createResolvedTempDirectorySync('widget_preview_test.');
     await project.setUpIn(tempDir);
   });
@@ -115,6 +114,8 @@ void main() {
       }),
     );
     await completer.future;
+    process!.kill();
+    process = null;
   }
 
   void runFlutterClean() {

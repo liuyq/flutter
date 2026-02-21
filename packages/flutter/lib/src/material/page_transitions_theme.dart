@@ -810,6 +810,7 @@ class PageTransitionsTheme with Diagnosticable {
         TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
         TargetPlatform.windows: ZoomPageTransitionsBuilder(),
         TargetPlatform.linux: ZoomPageTransitionsBuilder(),
+        TargetPlatform.ohos: ZoomPageTransitionsBuilder(),
       };
 
   /// The [PageTransitionsBuilder]s supported by this theme.
@@ -928,7 +929,8 @@ class _PageTransitionsThemeTransitionsState<T> extends State<_PageTransitionsThe
           TargetPlatform.fuchsia ||
           TargetPlatform.windows ||
           TargetPlatform.macOS ||
-          TargetPlatform.linux => const ZoomPageTransitionsBuilder(),
+          TargetPlatform.linux ||
+          TargetPlatform.ohos => const ZoomPageTransitionsBuilder(),
         };
     return matchingBuilder.buildTransitions<T>(
       widget.route,
