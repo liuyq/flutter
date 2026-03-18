@@ -26,7 +26,7 @@ class OHOSSurface {
   virtual bool IsValid() const = 0;
   virtual void TeardownOnScreenContext() = 0;
 
-  virtual bool OnScreenSurfaceResize(const SkISize& size) = 0;
+  virtual bool OnScreenSurfaceResize(const DlISize& size) = 0;
 
   virtual bool ResourceContextMakeCurrent() = 0;
 

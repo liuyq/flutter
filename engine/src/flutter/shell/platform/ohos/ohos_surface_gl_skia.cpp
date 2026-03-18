@@ -77,7 +77,7 @@ std::unique_ptr<Surface> OhosSurfaceGLSkia::CreateGPUSurface(
   }
 }
 
-bool OhosSurfaceGLSkia::OnScreenSurfaceResize(const SkISize& size) {
+bool OhosSurfaceGLSkia::OnScreenSurfaceResize(const DlISize& size) {
   FML_DCHECK(IsValid());
   // Check if surface/window is valid - may be null after
   // TeardownOnScreenContext
@@ -223,7 +223,7 @@ SurfaceFrame::FramebufferInfo OhosSurfaceGLSkia::GLContextFramebufferInfo()
 }
 
 void OhosSurfaceGLSkia::GLContextSetDamageRegion(
-    const std::optional<SkIRect>& region) {
+    const std::optional<DlIRect>& region) {
   FML_DCHECK(IsValid());
   // Check if onscreen_surface_ is valid - it may be null after
   // TeardownOnScreenContext
