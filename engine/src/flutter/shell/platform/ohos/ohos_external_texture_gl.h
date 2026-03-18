@@ -13,14 +13,39 @@
 
 namespace flutter {
 
-struct OHOSEGLImageKHRWithDisplayTraits;
-struct EGLSyncKHRTraits;
-struct GlResource;
+class OHOSExternalTextureGL;
+
+struct OHOSEGLImageKHRWithDisplayTraits {
+  static impeller::EGLImageKHRWithDisplay InvalidValue() {
+    return {EGL_NO_IMAGE_KHR, EGL_NO_DISPLAY};
+  }
+  static bool IsValid(const impeller::EGLImageKHRWithDisplay& value) {
+    return value.image != EGL_NO_IMAGE_KHR;  // Simplified comparison
+  }
+  static void Free(impeller::EGLImageKHRWithDisplay
+                       image);  // Move implementation to .cpp or below class
+};
+
+struct EGLSyncKHRTraits {
+  static EGLSyncKHR InvalidValue() { return EGL_NO_SYNC_KHR; }
+  static bool IsValid(const EGLSyncKHR& value) {
+    return value != EGL_NO_SYNC_KHR;
+  }
+  static void Free(
+      EGLSyncKHR sync);  // Move implementation to .cpp or below class
+};
 
 using OHOSUniqueEGLImageKHR =
     fml::UniqueObject<impeller::EGLImageKHRWithDisplay,
                       OHOSEGLImageKHRWithDisplayTraits>;
 using UniqueEGLSync = fml::UniqueObject<EGLSyncKHR, EGLSyncKHRTraits>;
+
+struct GlResource {
+  OHOSUniqueEGLImageKHR egl_image;
+  impeller::UniqueGLTexture texture;
+  UniqueEGLSync wait_sync;
+  UniqueEGLSync signal_sync;
+};
 
 class OHOSExternalTextureGL : public OHOSExternalTexture {
  public:
@@ -63,45 +88,21 @@ class OHOSExternalTextureGL : public OHOSExternalTexture {
   FML_DISALLOW_COPY_AND_ASSIGN(OHOSExternalTextureGL);
 };
 
-// ohos' sdk don't have eglDestroyImageKHR symbol, so we manually get the
-// eglDestroyImageKHR address.
-struct OHOSEGLImageKHRWithDisplayTraits {
-  static impeller::EGLImageKHRWithDisplay InvalidValue() {
-    return {EGL_NO_IMAGE_KHR, EGL_NO_DISPLAY};
+// 6. Provide the Free() implementations after the class is defined
+// (This allows the Traits to access OHOSExternalTextureGL::eglDestroyImageKHR_)
+inline void OHOSEGLImageKHRWithDisplayTraits::Free(
+    impeller::EGLImageKHRWithDisplay image) {
+  if (OHOSExternalTextureGL::eglDestroyImageKHR_) {
+    OHOSExternalTextureGL::eglDestroyImageKHR_(image.display, image.image);
   }
+}
 
-  static bool IsValid(const impeller::EGLImageKHRWithDisplay& value) {
-    return value != InvalidValue();
+inline void EGLSyncKHRTraits::Free(EGLSyncKHR sync) {
+  if (OHOSExternalTextureGL::eglDestroySyncKHR_) {
+    EGLDisplay disp = eglGetCurrentDisplay();
+    OHOSExternalTextureGL::eglDestroySyncKHR_(disp, sync);
   }
-
-  static void Free(impeller::EGLImageKHRWithDisplay image) {
-    if (OHOSExternalTextureGL::eglDestroyImageKHR_) {
-      OHOSExternalTextureGL::eglDestroyImageKHR_(image.display, image.image);
-    }
-  }
-};
-
-struct EGLSyncKHRTraits {
-  static EGLSyncKHR InvalidValue() { return EGL_NO_SYNC_KHR; }
-
-  static bool IsValid(const EGLSyncKHR& value) {
-    return value != InvalidValue();
-  }
-
-  static void Free(EGLSyncKHR sync) {
-    if (OHOSExternalTextureGL::eglDestroySyncKHR_) {
-      EGLDisplay disp = eglGetCurrentDisplay();
-      OHOSExternalTextureGL::eglDestroySyncKHR_(disp, sync);
-    }
-  }
-};
-
-struct GlResource {
-  OHOSUniqueEGLImageKHR egl_image;
-  impeller::UniqueGLTexture texture;
-  UniqueEGLSync wait_sync;
-  UniqueEGLSync signal_sync;
-};
+}
 
 }  // namespace flutter
 

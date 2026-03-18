@@ -70,7 +70,7 @@ void OHOSSurfaceVulkanImpeller::TeardownOnScreenContext() {
 }
 
 // |OHOSSurface|
-bool OHOSSurfaceVulkanImpeller::OnScreenSurfaceResize(const SkISize& size) {
+bool OHOSSurfaceVulkanImpeller::OnScreenSurfaceResize(const DlISize& size) {
   surface_context_vk_->UpdateSurfaceSize(
       impeller::ISize{size.width(), size.height()});
   return true;

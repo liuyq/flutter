@@ -45,7 +45,12 @@ std::u16string Utf8ToUtf16(const std::string_view string) {
 }
 
 std::string PathToUtf8(const std::filesystem::path& path) {
+#if defined(FML_OS_OHOS)
+  const std::string path_u8 =
+      reinterpret_cast<const char*>(path.u8string().c_str());
+#else
   const std::u8string path_u8 = path.u8string();
+#endif  // defined(FML_OS_OHOS)
   return std::string(path_u8.begin(), path_u8.end());
 }
 

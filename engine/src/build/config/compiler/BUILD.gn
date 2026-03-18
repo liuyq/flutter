@@ -367,7 +367,7 @@ config("compiler") {
 
   # Linux/Android common flags setup.
   # ---------------------------------
-  if (is_linux || is_android || is_qnx) {
+  if (is_linux || is_android || is_qnx || is_ohos) {
     cflags += [ "-fPIC" ]
 
     if (!is_qnx) {
@@ -556,6 +556,19 @@ config("cxx_version_default") {
     cflags_cc += extra_warning_flags_cc
     cflags_objcc += extra_warning_flags_cc
   }
+
+  if ( is_ohos ) {
+    cflags_cc_ohos = [
+      # ../../flutter/third_party/boringssl/src/crypto/fipsmodule/entropy/jitter.cc.inc:113:54: error: compound assignment to object of volatile-qualified type 'volatile uint8_t' (aka 'volatile unsigned char') is deprecated [-Werror,-Wdeprecated-volatile]
+      #  array_[(lcg_.Next() >> 6) & (array_size_ - 1)] += 1;
+      # CLang15 + -std=c++20
+      "-Wno-deprecated-volatile",
+      "-Wno-ambiguous-reversed-operator",
+    ]
+
+    cflags_cc += cflags_cc_ohos
+    cflags_objcc += cflags_cc_ohos
+  }
 }
 
 config("cxx_version_11") {
@@ -645,10 +658,15 @@ config("runtime_library") {
     # Add libcxx[abi]/include via cflags_cc, cflags_objcc to apply to
     # C++/Obj-C++ only. Adding them via include_dirs is problematic for Swift,
     # whose core libraries expect the Apple SDK C++ headers, module.modulemap.
-    _libcxx_include =
-        rebase_path("//flutter/third_party/libcxx/include", root_build_dir)
-    _libcxxabi_include =
-        rebase_path("//flutter/third_party/libcxxabi/include", root_build_dir)
+    if (is_ohos) {
+      _libcxx_include = rebase_path("//flutter/third_party/libcxx_ohos/include", root_build_dir)
+      _libcxxabi_include = rebase_path("//flutter/third_party/libcxxabi_ohos/include", root_build_dir)
+    } else {
+      _libcxx_include =
+          rebase_path("//flutter/third_party/libcxx/include", root_build_dir)
+      _libcxxabi_include =
+          rebase_path("//flutter/third_party/libcxxabi/include", root_build_dir)
+    }
     cflags_cc += [
       "-nostdinc++",
       "-I" + _libcxx_include,
@@ -759,7 +777,7 @@ if (is_win) {
       "-Wno-deprecated-literal-operator",
 
       # Needed by skia, imgui, swiftshader, and angle
-      "-Wno-nontrivial-memcall",
+      #"-Wno-nontrivial-memcall",
     ]
   }
 } else {
@@ -820,7 +838,7 @@ if (is_win) {
       "-Wno-unqualified-std-cast-call",
 
       # Needed by skia, imgui, swiftshader, and angle
-      "-Wno-nontrivial-memcall",
+      #"-Wno-nontrivial-memcall",
     ]
   }
   if (!is_fuchsia && is_clang) {
