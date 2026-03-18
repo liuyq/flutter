@@ -78,7 +78,7 @@ void OHOSSurfaceSoftware::TeardownOnScreenContext() {
 }
 
 // |OHOSSurface|
-bool OHOSSurfaceSoftware::OnScreenSurfaceResize(const SkISize& size) {
+bool OHOSSurfaceSoftware::OnScreenSurfaceResize(const DlISize& size) {
   FML_DLOG(INFO) << "OnScreenSurfaceResize";
   return true;
 }
@@ -98,7 +98,7 @@ bool OHOSSurfaceSoftware::SetNativeWindow(
 }
 
 // |GPUSurfaceSoftwareDelegate|
-sk_sp<SkSurface> OHOSSurfaceSoftware::AcquireBackingStore(const SkISize& size) {
+sk_sp<SkSurface> OHOSSurfaceSoftware::AcquireBackingStore(const DlISize& size) {
   FML_DLOG(INFO) << "AcquireBackingStore...";
   if (!IsValid()) {
     LOGE("AcquireBackingStore the surface is Invalid");

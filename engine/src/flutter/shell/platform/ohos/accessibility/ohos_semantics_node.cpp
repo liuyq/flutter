@@ -191,14 +191,14 @@ void SemanticsNodeExtend::OHOSComponentTypeUpdate() {
     componentType = OHWidgetName::kHeaderWidgetName;
   } else if (flags.isImage) {
     componentType = OHWidgetName::kImageWidgetName;
-  } else if (flags.hasCheckedState) {
+  } else if ((flags.isChecked != flutter::SemanticsCheckState::kNone)) {
     if (flags.isInMutuallyExclusiveGroup) {
       // arkui没有RadioButton，这里透传为RadioButton
       componentType = OHWidgetName::kRadioButtonWidgetName;
     } else {
       componentType = OHWidgetName::kCheckBoxWidgetName;
     }
-  } else if (flags.hasToggledState) {
+  } else if ((flags.isChecked != flutter::SemanticsCheckState::kNone)) {
     componentType = OHWidgetName::kSwitchWidgetName;
   } else if (HasAction(ACTIONS_::kIncrease) || HasAction(ACTIONS_::kDecrease)) {
     componentType = OHWidgetName::kSeekbarWidgetName;
@@ -447,13 +447,11 @@ void SemanticsNodeExtend::UpdateWithNode(flutter::SemanticsNode& node) {
 
   // Check if any flag has changed by comparing each field
   bool flagsChanged =
-      (previousFlags.hasCheckedState != flags.hasCheckedState ||
-       previousFlags.isChecked != flags.isChecked ||
+      (previousFlags.isChecked != flags.isChecked ||
        previousFlags.isSelected != flags.isSelected ||
        previousFlags.isButton != flags.isButton ||
        previousFlags.isTextField != flags.isTextField ||
        previousFlags.isFocused != flags.isFocused ||
-       previousFlags.hasEnabledState != flags.hasEnabledState ||
        previousFlags.isEnabled != flags.isEnabled ||
        previousFlags.isInMutuallyExclusiveGroup !=
            flags.isInMutuallyExclusiveGroup ||
@@ -464,30 +462,22 @@ void SemanticsNodeExtend::UpdateWithNode(flutter::SemanticsNode& node) {
        previousFlags.isHidden != flags.isHidden ||
        previousFlags.isImage != flags.isImage ||
        previousFlags.isLiveRegion != flags.isLiveRegion ||
-       previousFlags.hasToggledState != flags.hasToggledState ||
        previousFlags.isToggled != flags.isToggled ||
        previousFlags.hasImplicitScrolling != flags.hasImplicitScrolling ||
        previousFlags.isMultiline != flags.isMultiline ||
        previousFlags.isReadOnly != flags.isReadOnly ||
-       previousFlags.isFocusable != flags.isFocusable ||
        previousFlags.isLink != flags.isLink ||
        previousFlags.isSlider != flags.isSlider ||
        previousFlags.isKeyboardKey != flags.isKeyboardKey ||
-       previousFlags.isCheckStateMixed != flags.isCheckStateMixed ||
-       previousFlags.hasExpandedState != flags.hasExpandedState ||
        previousFlags.isExpanded != flags.isExpanded ||
-       previousFlags.hasSelectedState != flags.hasSelectedState ||
-       previousFlags.hasRequiredState != flags.hasRequiredState ||
        previousFlags.isRequired != flags.isRequired);
 
   previousFlags = flags;
-  if (flagsChanged || flags.hasCheckedState != node.flags.hasCheckedState ||
-      flags.isChecked != node.flags.isChecked ||
+  if (flagsChanged || flags.isChecked != node.flags.isChecked ||
       flags.isSelected != node.flags.isSelected ||
       flags.isButton != node.flags.isButton ||
       flags.isTextField != node.flags.isTextField ||
       flags.isFocused != node.flags.isFocused ||
-      flags.hasEnabledState != node.flags.hasEnabledState ||
       flags.isEnabled != node.flags.isEnabled ||
       flags.isInMutuallyExclusiveGroup !=
           node.flags.isInMutuallyExclusiveGroup ||
@@ -498,20 +488,14 @@ void SemanticsNodeExtend::UpdateWithNode(flutter::SemanticsNode& node) {
       flags.isHidden != node.flags.isHidden ||
       flags.isImage != node.flags.isImage ||
       flags.isLiveRegion != node.flags.isLiveRegion ||
-      flags.hasToggledState != node.flags.hasToggledState ||
       flags.isToggled != node.flags.isToggled ||
       flags.hasImplicitScrolling != node.flags.hasImplicitScrolling ||
       flags.isMultiline != node.flags.isMultiline ||
       flags.isReadOnly != node.flags.isReadOnly ||
-      flags.isFocusable != node.flags.isFocusable ||
       flags.isLink != node.flags.isLink ||
       flags.isSlider != node.flags.isSlider ||
       flags.isKeyboardKey != node.flags.isKeyboardKey ||
-      flags.isCheckStateMixed != node.flags.isCheckStateMixed ||
-      flags.hasExpandedState != node.flags.hasExpandedState ||
       flags.isExpanded != node.flags.isExpanded ||
-      flags.hasSelectedState != node.flags.hasSelectedState ||
-      flags.hasRequiredState != node.flags.hasRequiredState ||
       flags.isRequired != node.flags.isRequired) {
     flags = node.flags;
     flagChanged = true;

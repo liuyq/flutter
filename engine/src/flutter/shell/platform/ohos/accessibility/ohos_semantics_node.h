@@ -132,11 +132,22 @@ struct SemanticsNodeExtend : flutter::SemanticsNode {
   bool IsEditable() { return IsTextField() && !flags.isReadOnly; }
   bool IsSlider() { return flags.isSlider; }
   bool IsVisible() { return !flags.isHidden; }
-  bool IsCheckable() { return flags.hasCheckedState || flags.hasToggledState; }
-  bool IsChecked() { return flags.isChecked || flags.isToggled; }
-  bool IsSelected() { return flags.isSelected; }
+  bool IsCheckable() {
+    return (flags.isChecked != flutter::SemanticsCheckState::kNone) ||
+           (flags.isToggled != flutter::SemanticsTristate::kNone);
+  }
+  bool IsChecked() {
+    return (flags.isChecked == flutter::SemanticsCheckState::kTrue) ||
+           (flags.isChecked == flutter::SemanticsCheckState::kTrue);
+  }
+  bool IsSelected() {
+    return (flags.isSelected == flutter::SemanticsTristate::kTrue);
+  }
   bool IsPassword() { return flags.isTextField && flags.isObscured; }
-  bool IsEnabled() { return !flags.hasEnabledState || flags.isEnabled; }
+  bool IsEnabled() {
+    return (flags.isEnabled != flutter::SemanticsTristate::kNone) ||
+           (flags.isEnabled == flutter::SemanticsTristate::kTrue);
+  }
   bool IsClickable() { return HasAction(ACTIONS_::kTap); }
   bool IsHasLongPress() { return HasAction(ACTIONS_::kLongPress); }
   bool HasScrolled() {
@@ -154,17 +165,23 @@ struct SemanticsNodeExtend : flutter::SemanticsNode {
     if (flags.scopesRoute) {
       return false;
     }
-    if (flags.isFocusable) {
+    if (flags.isFocused != flutter::SemanticsTristate::kNone) {
       return true;
     }
     if (IsPlatformViewNode()) {
       return true;
     }
     // Check if any focusable flags are set
-    if (flags.hasCheckedState || flags.isChecked || flags.isSelected ||
-        flags.isTextField || flags.isFocused || flags.hasEnabledState ||
-        flags.isEnabled || flags.isInMutuallyExclusiveGroup ||
-        flags.hasToggledState || flags.isToggled || flags.isSlider) {
+    if ((flags.isChecked != flutter::SemanticsCheckState::kNone) ||
+        (flags.isChecked == flutter::SemanticsCheckState::kTrue) ||
+        (flags.isSelected == flutter::SemanticsTristate::kTrue) ||
+        (flags.isFocused == flutter::SemanticsTristate::kTrue) ||
+        (flags.isEnabled != flutter::SemanticsTristate::kNone) ||
+        (flags.isEnabled == flutter::SemanticsTristate::kTrue) ||
+        (flags.isToggled != flutter::SemanticsTristate::kNone) ||
+        (flags.isToggled == flutter::SemanticsTristate::kTrue) ||
+        flags.isTextField || flags.isInMutuallyExclusiveGroup ||
+        flags.isSlider) {
       return true;
     }
     if ((actions & ~kScrollableAction) != 0) {
@@ -172,7 +189,9 @@ struct SemanticsNodeExtend : flutter::SemanticsNode {
     }
     return !label.empty() || !value.empty() || !hint.empty();
   }
-  bool IsFocused() { return flags.isFocused; }
+  bool IsFocused() {
+    return (flags.isFocused == flutter::SemanticsTristate::kTrue);
+  }
   bool IsScrollable() {
     return HasAction(ACTIONS_::kScrollLeft) ||
            HasAction(ACTIONS_::kScrollRight) ||
