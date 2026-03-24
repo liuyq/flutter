@@ -87,8 +87,8 @@ bool OhosSurfaceGLSkia::OnScreenSurfaceResize(const DlISize& size) {
     return false;
   }
 
-  FML_LOG(INFO) << "OnScreenSurfaceResize update window size:" << size.width()
-                << "*" << size.height();
+  FML_LOG(INFO) << "OnScreenSurfaceResize update window size:" << size.width
+                << "*" << size.height;
   if (onscreen_surface_ && onscreen_surface_->IsValid() &&
       size == onscreen_surface_->GetSize()) {
     return true;
