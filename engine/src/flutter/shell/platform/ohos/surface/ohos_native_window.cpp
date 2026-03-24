@@ -28,7 +28,7 @@ bool OHOSNativeWindow::IsValid() const {
   return window_ != nullptr;
 }
 
-SkISize OHOSNativeWindow::GetSize() const {
+DlISize OHOSNativeWindow::GetSize() const {
   if (window_ != nullptr) {
     int32_t width, height;
     int ret = OH_NativeWindow_NativeWindowHandleOpt(
@@ -36,11 +36,11 @@ SkISize OHOSNativeWindow::GetSize() const {
     if (ret != 0) {
       FML_LOG(ERROR) << "OH_NativeWindow_NativeWindowHandleOpt GetSize err:"
                      << ret;
-      return SkISize::Make(0, 0);
+      return DlISize::MakeWH(0, 0);
     }
-    return SkISize::Make(width, height);
+    return DlISize::MakeWH(width, height);
   }
-  return SkISize::Make(0, 0);
+  return DlISize::MakeWH(0, 0);
 }
 
 void OHOSNativeWindow::SetSize(int width, int height) {

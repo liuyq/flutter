@@ -1077,9 +1077,14 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
   }
 
   flutter::ViewportMetrics metrics{
-      static_cast<double>(devicePixelRatio),
-      static_cast<double>(physicalWidth),
+      static_cast<double>(devicePixelRatio), static_cast<double>(physicalWidth),
       static_cast<double>(physicalHeight),
+      // refer to b683af0cecc0("Engine Support for Dynamic View Resizing
+      // (#173610)")
+      static_cast<double>(physicalWidth),   // p_physical_min_width_constraint
+      static_cast<double>(physicalWidth),   // p_physical_max_width_constraint
+      static_cast<double>(physicalHeight),  // p_physical_min_height_constraint
+      static_cast<double>(physicalHeight),  // p_physical_max_height_constraint
       static_cast<double>(physicalPaddingTop),
       static_cast<double>(physicalPaddingRight),
       static_cast<double>(physicalPaddingBottom),
@@ -1092,8 +1097,7 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
       static_cast<double>(systemGestureInsetRight),
       static_cast<double>(systemGestureInsetBottom),
       static_cast<double>(systemGestureInsetLeft),
-      static_cast<double>(physicalTouchSlop),
-      displayFeaturesBounds,
+      static_cast<double>(physicalTouchSlop), displayFeaturesBounds,
       std::vector<int>(displayFeaturesType.begin(), displayFeaturesType.end()),
       std::vector<int>(displayFeaturesState.begin(),
                        displayFeaturesState.end()),

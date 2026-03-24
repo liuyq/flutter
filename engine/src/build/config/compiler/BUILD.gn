@@ -777,7 +777,7 @@ if (is_win) {
       "-Wno-deprecated-literal-operator",
 
       # Needed by skia, imgui, swiftshader, and angle
-      #"-Wno-nontrivial-memcall",
+      "-Wno-nontrivial-memcall",
     ]
   }
 } else {
@@ -833,13 +833,24 @@ if (is_win) {
   }
 
   if (!is_wasm && is_clang) {
-    default_warning_flags += [
-      # Unqualified std::move is pretty common.
-      "-Wno-unqualified-std-cast-call",
+    if (is_ohos) {
+        default_warning_flags += [
+          # Unqualified std::move is pretty common.
+          "-Wno-unqualified-std-cast-call",
 
-      # Needed by skia, imgui, swiftshader, and angle
-      #"-Wno-nontrivial-memcall",
-    ]
+          # Needed by skia, imgui, swiftshader, and angle
+          # but ohos use clang15
+          # "-Wno-nontrivial-memcall",
+        ]
+    } else {
+        default_warning_flags += [
+          # Unqualified std::move is pretty common.
+          "-Wno-unqualified-std-cast-call",
+
+          # Needed by skia, imgui, swiftshader, and angle
+          "-Wno-nontrivial-memcall",
+        ]
+    }
   }
   if (!is_fuchsia && is_clang) {
     default_warning_flags += [

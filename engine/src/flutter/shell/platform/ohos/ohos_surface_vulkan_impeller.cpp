@@ -72,7 +72,7 @@ void OHOSSurfaceVulkanImpeller::TeardownOnScreenContext() {
 // |OHOSSurface|
 bool OHOSSurfaceVulkanImpeller::OnScreenSurfaceResize(const DlISize& size) {
   surface_context_vk_->UpdateSurfaceSize(
-      impeller::ISize{size.width(), size.height()});
+      impeller::ISize{size.width, size.height});
   return true;
 }
 
@@ -110,7 +110,7 @@ bool OHOSSurfaceVulkanImpeller::SetNativeWindow(
     }
     auto size = native_window_->GetSize();
     return surface_context_vk_->SetWindowSurface(
-        std::move(surface), impeller::ISize{size.width(), size.height()});
+        std::move(surface), impeller::ISize{size.width, size.height});
   }
 
   native_window_ = nullptr;

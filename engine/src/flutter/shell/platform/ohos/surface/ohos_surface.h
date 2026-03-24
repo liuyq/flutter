@@ -64,7 +64,7 @@ class OHOSSurface {
   explicit OHOSSurface(const std::shared_ptr<OHOSContext>& ohos_context);
   std::shared_ptr<OHOSContext> ohos_context_;
   fml::RefPtr<OHOSNativeWindow> native_window_;
-  SkISize window_size_ = {0, 0};
+  DlISize window_size_ = DlISize::MakeWH(0, 0);
 
  private:
   OH_NativeImage* offscreen_native_image_ = nullptr;
