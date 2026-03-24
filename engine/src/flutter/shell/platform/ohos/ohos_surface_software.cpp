@@ -106,15 +106,15 @@ sk_sp<SkSurface> OHOSSurfaceSoftware::AcquireBackingStore(const DlISize& size) {
   }
 
   if (sk_surface_ != nullptr &&
-      SkISize::Make(sk_surface_->width(), sk_surface_->height()) == size) {
+      DlISize::MakeWH(sk_surface_->width(), sk_surface_->height()) == size) {
     // The old and new surface sizes are the same. Nothing to do here.
     return sk_surface_;
   }
 
-  LOGE("SkImageInfofWidth=%{public}d, fHeight=%{public}d", size.fWidth,
-       size.fHeight);
+  LOGE("SkImageInfofWidth=%{public}d, fHeight=%{public}d", size.width,
+       size.height);
   SkImageInfo image_info =
-      SkImageInfo::Make(size.fWidth, size.fHeight, target_color_type_,
+      SkImageInfo::Make(size.width, size.height, target_color_type_,
                         target_alpha_type_, SkColorSpace::MakeSRGB());
 
   FML_DLOG(INFO) << "AcquireBackingStore...MakeRaster ";
