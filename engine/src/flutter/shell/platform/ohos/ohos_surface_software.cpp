@@ -5,8 +5,10 @@
  */
 
 #include "flutter/shell/platform/ohos/ohos_surface_software.h"
+#include <inttypes.h>
 #include <native_window/buffer_handle.h>
 #include <sys/mman.h>
+
 #include "napi_common.h"
 #include "ohos_logging.h"
 #include "third_party/skia/include/core/SkColorSpace.h"
@@ -173,8 +175,8 @@ bool OHOSSurfaceSoftware::PresentBackingStore(sk_sp<SkSurface> backing_store) {
   }
   LOGI(
       "BufferHandle.fd:%{public}d,w:%{public}d,h:%{public}d,stride:%{public}d,"
-      "format:%{public}d,usage:%{public}ld,virAddr:%{public}p,phyAddr:%{public}"
-      "ld,key:%{public}d",
+      "format:%{public}d,usage:%{public}" PRId64
+      ",virAddr:%{public}p,phyAddr:%{public}" PRId64 ",key:%{public}d",
       bufferHandle->fd, bufferHandle->width, bufferHandle->height,
       bufferHandle->stride, bufferHandle->format, bufferHandle->usage,
       bufferHandle->virAddr, bufferHandle->phyAddr, bufferHandle->key);
