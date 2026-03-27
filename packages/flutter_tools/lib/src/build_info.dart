@@ -701,6 +701,11 @@ enum TargetPlatform {
       case TargetPlatform.windows_x64:
       case TargetPlatform.windows_arm64:
         return 'windows';
+      case TargetPlatform.ohos:
+      case TargetPlatform.ohos_arm:
+      case TargetPlatform.ohos_arm64:
+      case TargetPlatform.ohos_x64:
+        return 'ohos';
       case TargetPlatform.android:
       case TargetPlatform.android_arm:
       case TargetPlatform.android_arm64:

@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import '../android/gradle_utils.dart' as gradle_utils;
+import '../ohos/ohos_sdk.dart';
 import 'platform.dart';
 
 /// Class containing some message strings that can be produced by Flutter tools.
