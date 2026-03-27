@@ -55,6 +55,8 @@ dependencies:
   convert: 3.1.2
   async: 2.13.0
   unified_analytics: 8.0.10
+  # this dependence use to parse json5 config file
+  json5: ^0.8.0
   pubspec_parse: 1.5.0
 
   graphs: 2.3.2
@@ -129,3 +131,12 @@ dartdoc:
   nodoc: true
 
 # PUBSPEC CHECKSUM: trof4g
+
+dependency_overrides:
+  code_assets:
+    git:
+      path: pkgs/code_assets
+      url: https://gitcode.com/gcw_jOhhwlE7/fluttertpc_dart_native.git
+      ref: ohos-flutter_3.38.7_deps
+#      url: https://gitcode.com/openharmony-sig/fluttertpc_dart_native
+#      ref: flutter_3.35.7_deps

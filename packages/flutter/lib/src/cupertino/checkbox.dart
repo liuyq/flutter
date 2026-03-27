@@ -442,6 +442,7 @@ class _CupertinoCheckboxState extends State<CupertinoCheckbox>
         switch (defaultTargetPlatform) {
           TargetPlatform.iOS ||
           TargetPlatform.android ||
+          TargetPlatform.ohos ||
           TargetPlatform.fuchsia => const Size.square(kMinInteractiveDimensionCupertino),
           TargetPlatform.macOS ||
           TargetPlatform.linux ||

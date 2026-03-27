@@ -40,6 +40,7 @@ export 'xcode_project.dart';
 
 /// Enum for each officially supported platform.
 enum SupportedPlatform {
+  ohos,
   android,
   ios,
   linux,
