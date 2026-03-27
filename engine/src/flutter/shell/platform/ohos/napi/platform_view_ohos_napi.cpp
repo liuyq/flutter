@@ -6,6 +6,7 @@
 
 #include "platform_view_ohos_napi.h"
 #include <dlfcn.h>
+#include <inttypes.h>
 #include <js_native_api.h>
 #include <multimedia/image_framework/image/pixelmap_native.h>
 #include <multimedia/image_framework/image_mdk.h>
@@ -635,7 +636,7 @@ napi_value PlatformViewOHOSNapi::nativeRunBundleAndSnapshotFromLibrary(
     LOGE("nativeRunBundleAndSnapshotFromLibrary napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeRunBundleAndSnapshotFromLibrary::shell_holder : %{public}ld",
+  LOGD("nativeRunBundleAndSnapshotFromLibrary::shell_holder : %{public}" PRId64,
        shell_holder);
 
   std::string bundlePath;
@@ -724,7 +725,7 @@ napi_value PlatformViewOHOSNapi::nativeSpawn(napi_env env,
     LOGE("nativeSpawn napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeSpawn::shell_holder : %{public}ld", shell_holder);
+  LOGD("nativeSpawn::shell_holder : %{public}" PRId64, shell_holder);
 
   std::string entrypoint;
   if (fml::napi::kSuccess != fml::napi::GetString(env, args[1], entrypoint)) {
@@ -809,7 +810,7 @@ napi_value PlatformViewOHOSNapi::nativeLoadDartDeferredLibrary(
     LOGE("nativeLoadDartDeferredLibrary napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeLoadDartDeferredLibrary::shell_holder : %{public}ld",
+  LOGD("nativeLoadDartDeferredLibrary::shell_holder : %{public}" PRId64,
        shell_holder);
 
   int64_t loadingUnitId;
@@ -818,7 +819,7 @@ napi_value PlatformViewOHOSNapi::nativeLoadDartDeferredLibrary(
     LOGE("nativeLoadDartDeferredLibrary napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeLoadDartDeferredLibrary::loadingUnitId : %{public}ld",
+  LOGD("nativeLoadDartDeferredLibrary::loadingUnitId : %{public}" PRId64,
        loadingUnitId);
 
   std::vector<std::string> search_paths;
@@ -888,7 +889,8 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
     LOGE("nativeSetViewportMetrics napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeSetViewportMetrics::shell_holder : %{public}ld", shell_holder);
+  LOGD("nativeSetViewportMetrics::shell_holder : %{public}" PRId64,
+       shell_holder);
 
   double devicePixelRatio;
   ret = napi_get_value_double(env, args[1], &devicePixelRatio);
@@ -905,7 +907,8 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
     LOGE("nativeSetViewportMetrics napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeSetViewportMetrics::physicalWidth : %{public}ld", physicalWidth);
+  LOGD("nativeSetViewportMetrics::physicalWidth : %{public}" PRId64,
+       physicalWidth);
 
   int64_t physicalHeight;
   ret = napi_get_value_int64(env, args[3], &physicalHeight);
@@ -913,7 +916,7 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
     LOGE("nativeSetViewportMetrics napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeSetViewportMetrics::physicalHeight : %{public}ld",
+  LOGD("nativeSetViewportMetrics::physicalHeight : %{public}" PRId64,
        physicalHeight);
 
   int64_t physicalPaddingTop;
@@ -922,7 +925,7 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
     LOGE("nativeSetViewportMetrics napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeSetViewportMetrics::physicalPaddingTop : %{public}ld",
+  LOGD("nativeSetViewportMetrics::physicalPaddingTop : %{public}" PRId64,
        physicalPaddingTop);
 
   int64_t physicalPaddingRight;
@@ -931,7 +934,7 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
     LOGE("nativeSetViewportMetrics napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeSetViewportMetrics::physicalPaddingRight : %{public}ld",
+  LOGD("nativeSetViewportMetrics::physicalPaddingRight : %{public}" PRId64,
        physicalPaddingRight);
 
   int64_t physicalPaddingBottom;
@@ -940,7 +943,7 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
     LOGE("nativeSetViewportMetrics napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeSetViewportMetrics::physicalPaddingBottom : %{public}ld",
+  LOGD("nativeSetViewportMetrics::physicalPaddingBottom : %{public}" PRId64,
        physicalPaddingBottom);
 
   int64_t physicalPaddingLeft;
@@ -949,7 +952,7 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
     LOGE("nativeSetViewportMetrics napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeSetViewportMetrics::physicalPaddingLeft : %{public}ld",
+  LOGD("nativeSetViewportMetrics::physicalPaddingLeft : %{public}" PRId64,
        physicalPaddingLeft);
 
   int64_t physicalViewInsetTop;
@@ -958,7 +961,7 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
     LOGE("nativeSetViewportMetrics napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeSetViewportMetrics::physicalViewInsetTop : %{public}ld",
+  LOGD("nativeSetViewportMetrics::physicalViewInsetTop : %{public}" PRId64,
        physicalViewInsetTop);
 
   int64_t physicalViewInsetRight;
@@ -967,7 +970,7 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
     LOGE("nativeSetViewportMetrics napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeSetViewportMetrics::physicalViewInsetRight : %{public}ld",
+  LOGD("nativeSetViewportMetrics::physicalViewInsetRight : %{public}" PRId64,
        physicalViewInsetRight);
 
   int64_t physicalViewInsetBottom;
@@ -976,7 +979,7 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
     LOGE("nativeSetViewportMetrics napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeSetViewportMetrics::physicalViewInsetBottom : %{public}ld",
+  LOGD("nativeSetViewportMetrics::physicalViewInsetBottom : %{public}" PRId64,
        physicalViewInsetBottom);
 
   int64_t physicalViewInsetLeft;
@@ -985,7 +988,7 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
     LOGE("nativeSetViewportMetrics napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeSetViewportMetrics::physicalViewInsetLeft : %{public}ld",
+  LOGD("nativeSetViewportMetrics::physicalViewInsetLeft : %{public}" PRId64,
        physicalViewInsetLeft);
   int64_t systemGestureInsetTop;
   ret = napi_get_value_int64(env, args[12], &systemGestureInsetTop);
@@ -993,7 +996,7 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
     LOGE("nativeSetViewportMetrics napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeSetViewportMetrics::systemGestureInsetTop : %{public}ld",
+  LOGD("nativeSetViewportMetrics::systemGestureInsetTop : %{public}" PRId64,
        systemGestureInsetTop);
   int64_t systemGestureInsetRight;
   ret = napi_get_value_int64(env, args[13], &systemGestureInsetRight);
@@ -1001,7 +1004,7 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
     LOGE("nativeSetViewportMetrics napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeSetViewportMetrics::systemGestureInsetRight : %{public}ld",
+  LOGD("nativeSetViewportMetrics::systemGestureInsetRight : %{public}" PRId64,
        systemGestureInsetRight);
 
   int64_t systemGestureInsetBottom;
@@ -1010,7 +1013,7 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
     LOGE("nativeSetViewportMetrics napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeSetViewportMetrics::systemGestureInsetBottom : %{public}ld",
+  LOGD("nativeSetViewportMetrics::systemGestureInsetBottom : %{public}" PRId64,
        systemGestureInsetBottom);
   int64_t systemGestureInsetLeft;
   ret = napi_get_value_int64(env, args[15], &systemGestureInsetLeft);
@@ -1018,7 +1021,7 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
     LOGE("nativeSetViewportMetrics napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeSetViewportMetrics::systemGestureInsetLeft : %{public}ld",
+  LOGD("nativeSetViewportMetrics::systemGestureInsetLeft : %{public}" PRId64,
        systemGestureInsetLeft);
 
   double physicalTouchSlop;
@@ -1043,7 +1046,7 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
 
   LOGD("nativeSetViewportMetrics::displayFeaturesBounds");
   for (const uint64_t& bounds : displayFeaturesBounds) {
-    LOGD(" %{public}ld", bounds);
+    LOGD(" %{public}" PRId64, bounds);
   }
 
   std::vector<int64_t> displayFeaturesType;
@@ -1058,7 +1061,7 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
 
   LOGD("nativeSetViewportMetrics::displayFeaturesType");
   for (const uint64_t& featuresType : displayFeaturesType) {
-    LOGD(" %{public}ld", featuresType);
+    LOGD(" %{public}" PRId64, featuresType);
   }
 
   std::vector<int64_t> displayFeaturesState;
@@ -1073,7 +1076,7 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
 
   LOGD("nativeSetViewportMetrics::displayFeaturesState");
   for (const uint64_t& featurestate : displayFeaturesState) {
-    LOGD(" %{public}ld", featurestate);
+    LOGD(" %{public}" PRId64, featurestate);
   }
 
   flutter::ViewportMetrics metrics{
@@ -1134,7 +1137,7 @@ napi_value PlatformViewOHOSNapi::nativeCleanupMessageData(
     return nullptr;
   }
 
-  LOGD("nativeCleanupMessageData  messageData: %{public}ld", messageData);
+  LOGD("nativeCleanupMessageData  messageData: %{public}" PRId64, messageData);
   free(reinterpret_cast<void*>(messageData));
   return nullptr;
 }
@@ -1205,8 +1208,9 @@ napi_value PlatformViewOHOSNapi::nativeUpdateSize(napi_env env,
     return nullptr;
   }
 
-  LOGD("PlatformViewOHOSNapi::nativeUpdateSize: %{public}ld %{public}ld", width,
-       height);
+  LOGD("PlatformViewOHOSNapi::nativeUpdateSize: %{public}" PRId64
+       "%{public}" PRId64,
+       width, height);
   FML_DCHECK(width > 0);
   FML_DCHECK(height > 0);
   display_width = width;
@@ -1277,7 +1281,7 @@ napi_value PlatformViewOHOSNapi::nativeCheckAndReloadFont(
     LOGE("nativeCheckAndReloadFont napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeCheckAndReloadFont shell_holder: %{public}ld", shell_holder);
+  LOGD("nativeCheckAndReloadFont shell_holder: %{public}" PRId64, shell_holder);
   OHOS_SHELL_HOLDER->ReloadSystemFonts();
   return nullptr;
 }
@@ -1324,7 +1328,7 @@ napi_value PlatformViewOHOSNapi::nativeDestroy(napi_env env,
     return nullptr;
   }
 
-  LOGD("nativeDestroy shell_holder: %{public}ld", shell_holder);
+  LOGD("nativeDestroy shell_holder: %{public}" PRId64, shell_holder);
 
   /**
    * When Shell destroying, the rasterizer will be moved in
@@ -1360,7 +1364,7 @@ napi_value PlatformViewOHOSNapi::nativeSetAccessibilityFeatures(
     LOGE("nativeDestroy napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeSetAccessibilityFeatures shell_holder: %{public}ld",
+  LOGD("nativeSetAccessibilityFeatures shell_holder: %{public}" PRId64,
        shell_holder);
   int64_t flags;
   ret = napi_get_value_int64(env, args[1], &flags);
@@ -1369,7 +1373,8 @@ napi_value PlatformViewOHOSNapi::nativeSetAccessibilityFeatures(
     return nullptr;
   }
   LOGD(
-      "PlatformViewOHOSNapi::nativeSetAccessibilityFeatures flags: %{public}ld",
+      "PlatformViewOHOSNapi::nativeSetAccessibilityFeatures flags: "
+      "%{public}" PRId64,
       flags);
   OHOS_SHELL_HOLDER->GetPlatformView()->SetAccessibilityFeatures(flags);
   return nullptr;
@@ -1400,7 +1405,7 @@ napi_value PlatformViewOHOSNapi::nativeDeferredComponentInstallFailure(
   }
   LOGD(
       "PlatformViewOHOSNapi::nativeSetAccessibilityFeatures loadingUnitId: "
-      "%{public}ld",
+      "%{public}" PRId64,
       loadingUnitId);
   std::string error;
   if (fml::napi::kSuccess != fml::napi::GetString(env, args[1], error)) {
@@ -1448,7 +1453,8 @@ napi_value PlatformViewOHOSNapi::nativeNotifyLowMemoryWarning(
     LOGE("nativeNotifyLowMemoryWarning napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeNotifyLowMemoryWarning shell_holder: %{public}ld", shell_holder);
+  LOGD("nativeNotifyLowMemoryWarning shell_holder: %{public}" PRId64,
+       shell_holder);
   OHOS_SHELL_HOLDER->NotifyLowMemoryWarning();
 
   return nullptr;
@@ -1478,7 +1484,7 @@ napi_value PlatformViewOHOSNapi::nativeFlutterTextUtilsIsEmoji(
     LOGE("nativeFlutterTextUtilsIsEmoji napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeFlutterTextUtilsIsEmoji codePoint: %{public}ld ", codePoint);
+  LOGD("nativeFlutterTextUtilsIsEmoji codePoint: %{public}" PRId64, codePoint);
 
   bool value = u_hasBinaryProperty(codePoint, UProperty::UCHAR_EMOJI);
   napi_value result = nullptr;
@@ -1514,7 +1520,7 @@ napi_value PlatformViewOHOSNapi::nativeFlutterTextUtilsIsEmojiModifier(
     LOGE("nativeFlutterTextUtilsIsEmojiModifier napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeFlutterTextUtilsIsEmojiModifier codePoint: %{public}ld ",
+  LOGD("nativeFlutterTextUtilsIsEmojiModifier codePoint: %{public}" PRId64,
        codePoint);
 
   bool value = u_hasBinaryProperty(codePoint, UProperty::UCHAR_EMOJI_MODIFIER);
@@ -1552,7 +1558,7 @@ napi_value PlatformViewOHOSNapi::nativeFlutterTextUtilsIsEmojiModifierBase(
         "nativeFlutterTextUtilsIsEmojiModifierBase napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeFlutterTextUtilsIsEmojiModifierBase codePoint: %{public}ld ",
+  LOGD("nativeFlutterTextUtilsIsEmojiModifierBase codePoint: %{public}" PRId64,
        codePoint);
 
   bool value =
@@ -1591,7 +1597,7 @@ napi_value PlatformViewOHOSNapi::nativeFlutterTextUtilsIsVariationSelector(
         "nativeFlutterTextUtilsIsVariationSelector napi_get_value_int64 error");
     return nullptr;
   }
-  LOGD("nativeFlutterTextUtilsIsVariationSelector codePoint: %{public}ld ",
+  LOGD("nativeFlutterTextUtilsIsVariationSelector codePoint: %{public}" PRId64,
        codePoint);
 
   bool value =
@@ -1629,7 +1635,7 @@ napi_value PlatformViewOHOSNapi::nativeFlutterTextUtilsIsRegionalIndicator(
     LOGE("nativeFlutterTextUtilsIsRegionalIndicator napi_get_value_int64 fail");
     return nullptr;
   }
-  LOGD("nativeFlutterTextUtilsIsRegionalIndicator codePoint: %{public}ld ",
+  LOGD("nativeFlutterTextUtilsIsRegionalIndicator codePoint: %{public}" PRId64,
        codePoint);
 
   bool value =
@@ -2068,7 +2074,7 @@ napi_value PlatformViewOHOSNapi::nativeXComponentAttachFlutterEngine(
 
   LOGD(
       "nativeXComponentAttachFlutterEngine xcomponent_id: %{public}s, "
-      "shell_holder: %{public}ld ",
+      "shell_holder: %{public}" PRId64,
       xcomponent_id.c_str(), shell_holder);
 
   XComponentAdapter::GetInstance()->AttachFlutterEngine(xcomponent_id,
@@ -2128,7 +2134,7 @@ napi_value PlatformViewOHOSNapi::nativeXComponentPreDraw(
 
   LOGD(
       "nativeXComponentPreDraw xcomponent_id: %{public}s, "
-      "shell_holder: %{public}ld ",
+      "shell_holder: %{public}" PRId64,
       xcomponent_id.c_str(), shell_holder);
 
   XComponentAdapter::GetInstance()->PreDraw(xcomponent_id, shell_holder_str,
@@ -2387,7 +2393,7 @@ napi_value PlatformViewOHOSNapi::nativeLookupCallbackInformation(
     return result;
   }
 
-  LOGD("nativeLookupCallbackInformation::handle : %{public}ld", handle);
+  LOGD("nativeLookupCallbackInformation::handle : %{public}" PRId64, handle);
   auto cbInfo = flutter::DartCallbackCache::GetCallbackInformation(handle);
   if (cbInfo == nullptr) {
     LOGE(

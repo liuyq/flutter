@@ -18,7 +18,7 @@ static int32_t FindA11yNodeInfosByIdCallbackWithInstance(
     ArkUI_AccessibilityElementInfoList* elementList) {
   LOGD(
       "a11yProviderCallbackWithInstance_.FindAccessibilityNodeInfosById, "
-      "instanceId:%{public}s mode:%{public}d id:%{public}ld",
+      "instanceId:%{public}s mode:%{public}d id:%{public}" PRId64,
       instanceId, mode, elementId);
   std::lock_guard<std::recursive_mutex> lock(
       XComponentAdapter::GetInstance()->xcomponentMap_mutex_);
@@ -104,7 +104,7 @@ int32_t ExecuteA11yActionCallbackWithInstance(
     int32_t requestId) {
   LOGD(
       "a11yProviderCallbackWithInstance_.ExecuteAccessibilityAction, "
-      "instanceId:%{public}s action:%{public}d id:%{public}ld",
+      "instanceId:%{public}s action:%{public}d id:%{public}" PRId64,
       instanceId, action, elementId);
   std::lock_guard<std::recursive_mutex> lock(
       XComponentAdapter::GetInstance()->xcomponentMap_mutex_);
