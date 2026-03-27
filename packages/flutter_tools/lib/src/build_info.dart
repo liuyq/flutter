@@ -760,6 +760,11 @@ enum TargetPlatform {
       case android_arm64:
       case android_x64:
         return 'android';
+      case ohos:
+      case ohos_arm:
+      case ohos_arm64:
+      case ohos_x64:
+        return 'ohos';
       case fuchsia_arm64:
       case fuchsia_x64:
         return 'fuchsia';
