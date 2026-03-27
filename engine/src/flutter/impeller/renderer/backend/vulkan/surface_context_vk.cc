@@ -154,7 +154,7 @@ vk::UniqueSurfaceKHR SurfaceContextVK::CreateOHOSSurface(
     VALIDATION_LOG << "vkCreateSurfaceOHOS get failed";
     return vk::UniqueSurfaceKHR{VK_NULL_HANDLE};
   }
-  return vk::UniqueSurfaceKHR(surface, parent_->GetInstance());
+  return vk::UniqueSurfaceKHR(vk::SurfaceKHR(surface), parent_->GetInstance());
 }
 #endif  // FML_OS_OHOS
 

@@ -135,7 +135,7 @@ static vk::UniqueDeviceMemory AllocateDeviceMemorty(
 
   VkMemoryDedicatedAllocateInfo ded_alloc_info;
   ded_alloc_info.sType = VK_STRUCTURE_TYPE_MEMORY_DEDICATED_ALLOCATE_INFO;
-  ded_alloc_info.image = image;
+  ded_alloc_info.image = static_cast<VkImage>(image);
   ded_alloc_info.buffer = VK_NULL_HANDLE;
   ded_alloc_info.pNext = &nb_info;
 

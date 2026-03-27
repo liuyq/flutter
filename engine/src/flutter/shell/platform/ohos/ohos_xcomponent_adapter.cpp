@@ -324,7 +324,7 @@ static int32_t FindAccessibilityNodeInfosByIdCallback(
     ArkUI_AccessibilityElementInfoList* elementList) {
   LOGD(
       "accessibilityProviderCallback_.FindAccessibilityNodeInfosById mode "
-      "%{public}d id %{public}ld",
+      "%{public}d id %{public}" PRId64,
       mode, elementId);
   std::lock_guard<std::recursive_mutex> lock(
       XComponentAdapter::GetInstance()->xcomponentMap_mutex_);

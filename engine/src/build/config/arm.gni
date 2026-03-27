@@ -49,15 +49,21 @@ if (current_cpu == "arm" || current_cpu == "arm64") {
     arm_use_thumb = false
   } else if (arm_version == 7) {
     arm_arch = "armv7-a"
-    if (arm_tune == "") {
-      arm_tune = "generic-armv7-a"
+    if (!is_ohos) {
+      if (arm_tune == "") {
+        arm_tune = "generic-armv7-a"
+      }
     }
 
     if (arm_float_abi == "") {
       arm_float_abi = "softfp"
     }
 
-    arm_use_thumb = true
+    if (is_ohos) {
+      arm_use_thumb = false
+    } else {
+      arm_use_thumb = true
+    }
 
     if (arm_use_neon) {
       arm_fpu = "neon"

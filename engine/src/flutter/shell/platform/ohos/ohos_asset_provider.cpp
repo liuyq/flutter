@@ -31,7 +31,7 @@ class FileDescriptionMapping : public fml::Mapping {
     size_t bufLenth = GetSize();
 
     if (file_handle_ != nullptr && bufLenth > 0) {
-      LOGD("FileDescriptionMapping buflenth = %{public}ld", bufLenth);
+      LOGD("FileDescriptionMapping buflenth = %{public}zu", bufLenth);
       file_buf_ = malloc(bufLenth + 1);
       memset(file_buf_, 0, bufLenth + 1);
     }
