@@ -78,6 +78,11 @@ sealed class AssetBuildTarget {
       case TargetPlatform.android_arm64:
       case TargetPlatform.android_x64:
         return _androidTargets(targetPlatform, environmentDefines, supportedAssetTypes);
+      case TargetPlatform.ohos:
+      case TargetPlatform.ohos_arm:
+      case TargetPlatform.ohos_arm64:
+      case TargetPlatform.ohos_x64:
+        throwToolExit('No targets defined for target platform $targetPlatform.');
       case TargetPlatform.ios:
         return _iosTargets(environmentDefines, fileSystem, supportedAssetTypes);
       case TargetPlatform.web_javascript:
@@ -397,6 +402,10 @@ List<AndroidArch> _androidArchs(TargetPlatform targetPlatform, String? androidAr
         throw MissingDefineException(kAndroidArchs, 'native_assets');
       }
       return androidArchsEnvironment.split(' ').map(getAndroidArchForName).toList();
+    case TargetPlatform.ohos:
+    case TargetPlatform.ohos_arm:
+    case TargetPlatform.ohos_arm64:
+    case TargetPlatform.ohos_x64:
     case TargetPlatform.darwin:
     case TargetPlatform.fuchsia_arm64:
     case TargetPlatform.fuchsia_x64:
