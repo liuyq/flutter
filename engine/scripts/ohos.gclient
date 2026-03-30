@@ -13,7 +13,8 @@ solutions = [
 
         # https://dart.googlesource.com/sdk.git
         # "engine/src/flutter/third_party/dart": "https://gitcode.com/openharmony-sig/fluttertpc_dart_sdk.git@fbe3ce7a1bc11b1b3d19d02d98cd3f4054cdb073",
-        "engine/src/flutter/third_party/dart": "https://gitcode.com/gcw_jOhhwlE7/fluttertpc_dart_sdk@daf42c6fd5a2b4d80e5136651329fbf5e9a3704d", # ohos-flutter_3.38.7_deps
+        #"engine/src/flutter/third_party/dart": "https://gitcode.com/gcw_jOhhwlE7/fluttertpc_dart_sdk@ca8d45cd1a14561ed447427d67b8ca492978523f",
+        "engine/src/flutter/third_party/dart": "https://gitcode.com/gcw_jOhhwlE7/fluttertpc_dart_sdk@ohos-flutter_3.38.7_deps",
         # https://dart.googlesource.com/native.git
         # "engine/src/flutter/third_party/dart/third_party/pkg/native": "https://gitcode.com/openharmony-sig/fluttertpc_dart_native.git@44a561397003f2abc9d6de96430f0eab8e8c405a",
         "engine/src/flutter/third_party/dart/third_party/pkg/native": "https://gitcode.com/gcw_jOhhwlE7/fluttertpc_dart_native.git@097597a3920e1b5154728bae61714482a72db1a9", # ohos-flutter_3.38.7_deps
