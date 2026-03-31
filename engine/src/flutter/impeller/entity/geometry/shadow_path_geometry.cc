@@ -94,6 +94,15 @@ struct UmbraPin {
   UmbraPin* p_next = nullptr;
   UmbraPin* p_prev = nullptr;
 
+  // Add this constructor:
+  explicit UmbraPin(Point p_path_vertex)
+      : path_vertex(p_path_vertex),
+        pin_tip(p_path_vertex),
+        umbra_vertex(p_path_vertex) {}
+
+  // Also add a default constructor if needed by other code:
+  UmbraPin() = default;
+
   /// Returns true after the umbra_fraction is first initialized to a real
   /// value representing its potential intersections with other pins. At
   /// that point it will be a number from 0 to 1.
