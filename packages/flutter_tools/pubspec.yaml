@@ -137,6 +137,6 @@ dependency_overrides:
     git:
       path: pkgs/code_assets
       url: https://gitcode.com/gcw_jOhhwlE7/fluttertpc_dart_native.git
-      ref: ohos-flutter_3.41.6_deps
+      ref: ohos-flutter-master-292cea7a088b-260401
 #      url: https://gitcode.com/openharmony-sig/fluttertpc_dart_native
 #      ref: flutter_3.35.7_deps

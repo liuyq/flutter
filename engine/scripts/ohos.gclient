@@ -14,13 +14,14 @@ solutions = [
       # https://dart.googlesource.com/sdk.git
       # "engine/src/flutter/third_party/dart": "https://gitcode.com/openharmony-sig/fluttertpc_dart_sdk.git@fbe3ce7a1bc11b1b3d19d02d98cd3f4054cdb073",
       #"engine/src/flutter/third_party/dart": "https://gitcode.com/gcw_jOhhwlE7/fluttertpc_dart_sdk@43e7ae757461f5f2be96c764651d771a62dde638",
-      "engine/src/flutter/third_party/dart": "https://gitcode.com/gcw_jOhhwlE7/fluttertpc_dart_sdk@304d9e874e29c3bec53501e102f056c69b6873d8", # ohos-flutter_3.41.6_deps
+      "engine/src/flutter/third_party/dart": "https://gitcode.com/gcw_jOhhwlE7/fluttertpc_dart_sdk@557123d5eddc341fdaa428a0635a921cc78d0100", # ohos-flutter-master-292cea7a088b-260401
       # https://dart.googlesource.com/native.git
       # "engine/src/flutter/third_party/dart/third_party/pkg/native": "https://gitcode.com/openharmony-sig/fluttertpc_dart_native.git@44a561397003f2abc9d6de96430f0eab8e8c405a",
-      "engine/src/flutter/third_party/dart/third_party/pkg/native": "https://gitcode.com/gcw_jOhhwlE7/fluttertpc_dart_native.git@db18bb050bc11761ca434bae8f8acedeac8554c0", # ohos-flutter_3.41.6_deps
+      "engine/src/flutter/third_party/dart/third_party/pkg/native": "https://gitcode.com/gcw_jOhhwlE7/fluttertpc_dart_native.git@4024365d8b819cbceff9bd658fd8c10414e7cb07", # ohos-flutter-master-292cea7a088b-260401
 
       # https://chromium.googlesource.com/chromium/src/third_party/zlib.git
-      "engine/src/flutter/third_party/zlib": "https://gitcode.com/openharmony-sig/fluttertpc_zlib.git@99f35b24b64a4abaeaac8b4e716506eecdcf3b4f",
+      #"engine/src/flutter/third_party/zlib": "https://gitcode.com/openharmony-sig/fluttertpc_zlib.git@99f35b24b64a4abaeaac8b4e716506eecdcf3b4f",
+      "engine/src/flutter/third_party/zlib": "https://gitcode.com/gcw_jOhhwlE7/fluttertpc_zlib.git@cc8e75eaa8fa5a9adc2340da76fa27fb8780cca1", # ohos-flutter-master-292cea7a088b-260401
 
       # https://chromium.googlesource.com/vulkan-deps
       #"engine/src/flutter/third_party/vulkan-deps": "https://gitcode.com/openharmony-sig/fluttertpc_vulkan-deps@8739b8400449c9c4d96862aa7e3863a0a58637cf",
@@ -28,12 +29,12 @@ solutions = [
 
       # https://skia.googlesource.com/skia.git
       #"engine/src/flutter/third_party/skia": "https://gitcode.com/openharmony-sig/fluttertpc_skia.git@302d699a100e1317b54bff76ec7157df7c431913",
-      "engine/src/flutter/third_party/skia": "https://gitcode.com/gcw_jOhhwlE7/fluttertpc_skia.git@a4b7a8c52748682d323e5857f1098997a784aef3", # ohos-flutter_3.41.6_deps
+      "engine/src/flutter/third_party/skia": "https://gitcode.com/gcw_jOhhwlE7/fluttertpc_skia.git@193b5ac0c4e46575d8377d1c1dc2d2f614a8eb99", # ohos-flutter-master-292cea7a088b-260401
       # https://swiftshader.googlesource.com/SwiftShader.git
       "engine/src/flutter/third_party/swiftshader": "https://github.com/liuyq/SwiftShader.git@19b4cd1f79eac7b9ffc08eb464c5bcb768de90bc", # ohos-flutter_3.41.6_deps
       # https://flutter.googlesource.com/third_party/angle
       # "engine/src/flutter/third_party/angle": "https://gitcode.com/openharmony-sig/fluttertpc_angle.git@bff414babe33898719e2e4004348389e6f7002fd",
-      "engine/src/flutter/third_party/angle": "https://gitcode.com/gcw_jOhhwlE7/fluttertpc_angle.git@bf9abb9e92a7eeef2cd55d2b0bfd18b61858eb1a", # ohos-flutter_3.41.6_deps
+      "engine/src/flutter/third_party/angle": "https://gitcode.com/gcw_jOhhwlE7/fluttertpc_angle.git@f12985414025842a6649658ea15003b853dbb7e5", # ohos-flutter-master-292cea7a088b-260401
     },
     "deps_file": "DEPS",
     "managed": False,
