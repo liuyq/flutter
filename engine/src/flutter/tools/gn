@@ -1228,7 +1228,6 @@ def parse_args(args):
 
   parser.add_argument(
       '--stripped',
-      default=True,
       action='store_true',
       default=None,
       help='Strip debug symbols from the output. This defaults to true for all targets '
