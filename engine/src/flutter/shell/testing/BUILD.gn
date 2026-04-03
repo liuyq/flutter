@@ -94,13 +94,10 @@ template("tester") {
 tester("flutter_tester") {
   output_name = "flutter_tester"
 
-  ldflags = []
-
-  if (is_ohos) {
-    deps += [ "//flutter/shell/platform/ohos:icudtl_asm" ]
-    sources += [ "$root_build_dir/gen/flutter/shell/platform/ohos/flutter/third_party/icu/flutter/icudtl.dat.S" ]
-    ldflags += [ "-lnative_drawing" ]
-  }
+  #  if (is_ohos) {
+  #    deps += [ "//flutter/shell/platform/ohos:icudtl_asm" ]
+  #    sources += [ "$root_build_dir/gen/flutter/shell/platform/ohos/flutter/third_party/icu/flutter/icudtl.dat.S" ]
+  #  }
 
   if (impeller_supports_rendering) {
     configs = [ ":tester_gpu_configuration_config" ]
