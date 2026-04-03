@@ -21,7 +21,7 @@ solutions = [
 
       # https://chromium.googlesource.com/chromium/src/third_party/zlib.git
       #"engine/src/flutter/third_party/zlib": "https://gitcode.com/openharmony-sig/fluttertpc_zlib.git@99f35b24b64a4abaeaac8b4e716506eecdcf3b4f",
-      "engine/src/flutter/third_party/zlib": "https://gitcode.com/gcw_jOhhwlE7/fluttertpc_zlib.git@cc8e75eaa8fa5a9adc2340da76fa27fb8780cca1", # ohos-flutter-master-292cea7a088b-260401
+      "engine/src/flutter/third_party/zlib": "https://gitcode.com/gcw_jOhhwlE7/fluttertpc_zlib.git@99f35b24b64a4abaeaac8b4e716506eecdcf3b4f", # flutter_3.35.7_deps
 
       # https://chromium.googlesource.com/vulkan-deps
       #"engine/src/flutter/third_party/vulkan-deps": "https://gitcode.com/openharmony-sig/fluttertpc_vulkan-deps@8739b8400449c9c4d96862aa7e3863a0a58637cf",
