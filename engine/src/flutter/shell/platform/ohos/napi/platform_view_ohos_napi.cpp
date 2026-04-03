@@ -1105,6 +1105,11 @@ napi_value PlatformViewOHOSNapi::nativeSetViewportMetrics(
       std::vector<int>(displayFeaturesState.begin(),
                        displayFeaturesState.end()),
       0,  // Display ID
+      // refer to 697572a67c43("[Android] Add display corner radii support. (#179219)")
+      -1.0, // p_physical_display_corner_radius_top_left
+      -1.0, // p_physical_display_corner_radius_top_right
+      -1.0, // p_physical_display_corner_radius_bottom_right
+      -1.0, //p_physical_display_corner_radius_bottom_left
   };
 
   OHOS_SHELL_HOLDER->GetPlatformView()->SetViewportMetrics(
