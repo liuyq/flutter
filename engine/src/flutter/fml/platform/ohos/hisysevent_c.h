@@ -113,7 +113,8 @@ typedef enum HiSysEventEventType HiSysEventEventType;
  * invalid params.
  */
 // #define OH_HiSysEvent_Write(domain, name, type, params, size) \
-//     HiSysEvent_Write(__FUNCTION__, __LINE__, domain, name, type, params, size)
+//     HiSysEvent_Write(__FUNCTION__, __LINE__, domain, name, type, params,
+//     size)
 
 // int HiSysEvent_Write(const char* func, int64_t line, const char* domain,
 // const char* name,
