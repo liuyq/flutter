@@ -38,8 +38,11 @@ void LazyGlyphAtlas::AddTextFrame(
     const std::optional<GlyphProperties>& properties) {
   FML_DCHECK(alpha_data_.atlas == nullptr && color_data_.atlas == nullptr);
   AtlasData& data = GetData(frame->GetAtlasType());
-  data.renderable_frames.emplace_back(
-      frame, transform * Matrix::MakeTranslation(position), properties);
+  RenderableText render_frame{
+      .text_frame = frame,
+      .origin_transform = transform * Matrix::MakeTranslation(position),
+      .properties = properties};
+  data.renderable_frames.emplace_back(render_frame);
 }
 
 void LazyGlyphAtlas::ResetTextFrames() {
