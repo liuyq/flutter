@@ -145,9 +145,8 @@ sk_sp<SkShader> ToSk(const DlColorSource* source) {
           source->asSweepGradient();
       FML_DCHECK(sweep_source != nullptr);
       return SkShaders::SweepGradient(
-          SkPoint(sweep_source->center().x, sweep_source->center().y),
-          sweep_source->start(), sweep_source->end(),
-          ToSkGradient(sweep_source, scratch_colors),
+          ToSkPoint(sweep_source->center()), sweep_source->start(),
+          sweep_source->end(), ToSkGradient(sweep_source, scratch_colors),
           ToSk(sweep_source->matrix_ptr(), scratch_matrix));
     }
     case DlColorSourceType::kRuntimeEffect: {
