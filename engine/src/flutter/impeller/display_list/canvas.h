@@ -379,6 +379,7 @@ class Canvas {
       const Geometry* geometry,
       const Paint& paint,
       bool reuse_depth = false,
+      bool is_draw_rect = false,
       const std::shared_ptr<ColorSourceContents>& override_contents = nullptr);
 
   void AddRenderEntityToCurrentPass(Entity& entity,

@@ -743,7 +743,8 @@ bool Canvas::AttemptDrawBlur(BlurShape& shape, const Paint& paint) {
 
       const Geometry& geom = shape.BuildDrawGeometry();
       AddRenderEntityWithFiltersToCurrentPass(entity, &geom, rrect_paint,
-                                              /*reuse_depth=*/true);
+                                              /*reuse_depth=*/true,
+                                              /*is_draw_rect=*/false);
       break;
     }
     case FilterContents::BlurStyle::kOuter: {
@@ -784,7 +785,8 @@ void Canvas::DrawLine(const Point& p0,
     AddRenderEntityToCurrentPass(entity, reuse_depth);
   } else {
     AddRenderEntityWithFiltersToCurrentPass(entity, geometry.get(), paint,
-                                            /*reuse_depth=*/reuse_depth);
+                                            /*reuse_depth=*/reuse_depth,
+                                            /*is_draw_rect=*/false);
   }
 }
 
@@ -844,6 +846,7 @@ void Canvas::DrawRect(const Rect& rect, const Paint& paint) {
 
     AddRenderEntityWithFiltersToCurrentPass(entity, geom, paint,
                                             /*reuse_depth=*/false,
+                                            /*is_draw_rect=*/false,
                                             /*override_contents=*/
                                             std::move(contents));
     return;
@@ -1060,6 +1063,7 @@ void Canvas::DrawCircle(const Point& center,
     AddRenderEntityWithFiltersToCurrentPass(
         entity, geom, paint,
         /*reuse_depth=*/false,
+        /*is_draw_rect=*/false,
         /*override_contents=*/std::move(contents));
     return;
   }
@@ -1975,6 +1979,7 @@ void Canvas::AddRenderEntityWithFiltersToCurrentPass(
     const Geometry* geometry,
     const Paint& paint,
     bool reuse_depth,
+    bool is_draw_rect,
     const std::shared_ptr<ColorSourceContents>& override_contents) {
   std::shared_ptr<ColorSourceContents> contents =
       override_contents ? override_contents : paint.CreateContents(geometry);
