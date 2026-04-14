@@ -147,10 +147,14 @@ group("flutter") {
       "//flutter/build/dart/test:gen_executable_call",
 
       # "//flutter/shell/testing",
-      "//flutter/tools/const_finder",
       "//flutter/tools/engine_tool:tests",
-      "//flutter/tools/font_subset",
     ]
+    if (target_cpu != "arm") {
+      public_deps += [
+        "//flutter/tools/const_finder",
+        "//flutter/tools/font_subset",
+      ]
+    }
   }
 
   # Compile all benchmark targets if enabled.
